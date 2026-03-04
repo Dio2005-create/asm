@@ -1,0 +1,747 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=UTF-8">
+</head>
+
+<body>
+<div class="container">
+{% for selectedData in selectedData %}
+
+<table style="width:762pt;margin-top:30px;margin-left:13.75pt;border-collapse:collapse;border:
+ none">
+ <tr style="height:12.85pt">
+  <td width=249 rowspan=3 valign=top style="width:124.55pt;border:none;
+  padding:0cm 5.4pt 0cm 5.4pt;height:12.85pt">
+  <p><span style="position:absolute;margin-top:0px;"><img width=120
+  height=90 src="{{ asset('assets/images/image001.png')}}"></span></p>
+  </td>
+  <td valign=top style="width:300px;border:none;padding:0cm 5.4pt 0cm 5.4pt;
+  height:12.85pt">
+  <p  align=center style="margin-right:11.2pt;text-align:center"><span
+  style='font-size:14px'>ENTREPRISE ASM EAU</span></p>
+  </td>
+  <td width=613 colspan=3 rowspan=2 valign=top style="width:306.65pt;
+  border:none;padding:0cm 5.4pt 0cm 5.4pt;height:12.85pt">
+  <p style="margin-left:1.0pt"><span style='font-size:16px'>Doit : {{selectedData.client.nom}} {{ selectedData.client.prenom }}</span></p>
+  <p ><span style='font-size:16px'>Référence
+  Client : {{ selectedData.client.code }}</span></p>
+  </td>
+ </tr>
+ <tr style='height:12.75pt'>
+  <a name=page1></a>
+  <td width=282 valign=top style="width:140.85pt;border:none;padding:0cm 5.4pt 0cm 5.4pt;
+  height:12.75pt">
+  <p align=center style="margin-right:11.2pt;text-align:center"><span
+  style='font-size:14px'>GESTION
+  D'EXPLOITATION</span></p>
+  </td>
+ </tr>
+ <tr style="height:12.95pt">
+  <td width=282 valign=top style='width:140.85pt;border:none;padding:0cm 5.4pt 0cm 5.4pt;
+  height:12.95pt'>
+  <p align=center style='margin-right:11.2pt;text-align:center'><span
+  style='font-size:14px;'>DU SYSTEME
+  D'ADDUCTION D'EAU POTABLE</span></p>
+  </td>
+  <td width=613 colspan=3 valign=top style='width:306.65pt;border:none;
+  padding:0cm 5.4pt 0cm 5.4pt;height:12.95pt'>
+  <p style='margin-left:1.0pt'><span style='font-size:16px'>Catégorie : Particulier. Zone
+  {{ selectedData.client.quartier.nom }}.</span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=249 rowspan=2 valign=top style='width:124.55pt;border:none;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:10.0pt'>&nbsp;</span></p>
+  <p style='margin-left:2.0pt'><span style='font-size:14px;
+  font-family:"Arial","sans-serif"'><strong>
+  {% set parts = selectedData.client.code|explode("/") %}
+  FACTURE N° {{ selectedData.id }}/{{ parts[2] }}</strong></span></p>
+  </td>
+  <td width=282 valign=top style='width:140.85pt;border:none;padding:0cm 5.4pt 0cm 5.4pt;
+  height:11.6pt'>
+  <p align=center style='margin-right:11.2pt;text-align:center;
+  line-height:23px'><span style='font-size:14px;'>LOT
+  IIIP 01 FANJAKAMANDROSO IHOSY</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border:solid  1.0pt;
+  border-left:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=center style='text-align:center;line-height:23px'><span
+  style='font-size:19px;'>Date</span></p>
+  </td>
+  <td width=188 valign=top style='width:93pt;border:solid  1.0pt;
+  border-left:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='margin-right:27.5pt;text-align:right;
+  line-height:23px'><span style='font-size:19px;'>Index</span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=282 valign=top style='width:140.85pt;border:none;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p style='margin-right:11.2pt;line-height:7.45pt'><span
+  style='font-size:14px;'>NIF: 3000193615 STAT:41001
+  24 2004 0 00004</span></p>
+  </td>
+  <td width=213 valign=top style="width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:15.6pt">
+  <p style="margin-left:16.0pt;line-height:13.7pt"><span
+  style='font-size:16px;'>Nouvel Index</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=center style='text-align:center;line-height:14.7pt'><span
+  style='font-size:16px;'>{{ selectedData.dateReleve|date('d/m/Y') }}</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=center style='text-align:center;line-height:14.7pt'><span
+  style='font-size:16px;'>{{ selectedData.nouvelIndex}}</span></p>
+  </td>
+ </tr>
+ <tr style='height:11.45pt'>
+  <td width=249 valign=top style='width:124.55pt;border:none;padding:0cm 5.4pt 0cm 5.4pt;
+  height:11.45pt'>
+  <p style='margin-left:2.0pt;line-height:9.6pt'><span
+  style='font-size:14px;font-family:"Arial","sans-serif"'><strong>Mois de :
+  
+  {% set monthNumber = selectedData.mois %}  
+    {% set monthNames = [
+        'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+        'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
+    ] %}
+{{ monthNames[monthNumber - 1] }}  {{ selectedData.annee}}</strong></span></p>
+  </td>
+  <td width=282 valign=top style='width:140.85pt;border:none;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.45pt'>
+  <p align=center style='margin-right:11.2pt;text-align:center;
+  line-height:20px'><span style='font-size:14px;'>N
+  DE COMPTE: 13663090155</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.45pt'>
+  <p style='margin-left:17.0pt;line-height:13.6pt'><span
+  style='font-size:16px'>Ancien Index</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.45pt'>
+  <p align=center style='text-align:center;line-height:14.6pt'><span
+  style='font-size:16px;'>
+  {% if selectedData.dateAncienIndex != null %}
+      {{ selectedData.dateAncienIndex|date('d/m/Y') }}
+  {% endif %}
+ 
+ </span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.45pt'>
+  <p align=center style='text-align:center;line-height:14.6pt'><span
+  style='font-size:16px;'>  {{ selectedData.ancienIndex}}</span></p>
+  </td>
+ </tr>
+ <tr style='height:11.7pt'>
+  <td width=249 valign=top style='width:124.55pt;border:none;padding:0cm 5.4pt 0cm 5.4pt;
+  height:11.7pt'>
+  <p style='margin-left:2.0pt;line-height:9.75pt'><span
+  style='font-size:14px;font-family:"Arial","sans-serif"'><strong>Date de présentation</strong></span></p>
+  </td>
+  <td width=282 valign=top style='width:140.85pt;border:none;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.7pt'>
+  <p ><span style='font-size:8.5pt'>&nbsp;</span></p>
+  </td>
+  <td width=425 colspan=2 valign=top style='width:212.6pt;border-top:none;
+  border-left:none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.7pt'>
+  <p style="margin-left: 37.0pt;line-height:14.75pt"><span style='font-size:16px;'>Consommation Totale</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.7pt'>
+  <p align=center style='text-align:center;line-height:14.75pt'><span
+  style='font-size:16px;'>{{ selectedData.Consomation}}</span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=249 valign=top style='width:124.55pt;border:none;padding:0cm 5.4pt 0cm 5.4pt;
+  height:11.6pt'>
+  <p style='margin-left:2.0pt;line-height:9.7pt'><span
+  style='font-size:14px;font-family:"Arial","sans-serif"'><strong>Date de coupure</strong></span></p>
+  </td>
+  <td width=282 valign=top style='width:140.85pt;border:none;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=425 colspan=2 valign=top style='width:212.6pt;border-top:none;
+  border-left:none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p style='margin-left:37.0pt;line-height:14.7pt'><span
+  style='font-size:16px;'>Nb jours
+  Consommation</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=center style='text-align:center;line-height:14.7pt'><span
+  style='font-size:16px'>
+  {% set dateAncien = selectedData.dateAncienIndex|date("Y-m-d") %}
+{% set dateNouveau = selectedData.dateReleve|date("Y-m-d") %}
+{% set dateAncienObj = date(dateAncien) %}
+{% set dateNouveauObj = date(dateNouveau) %}
+{% set dateInterval = dateNouveauObj.diff(dateAncienObj) %}
+{{ dateInterval.format('%a ') }}
+</span></p>
+
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=249 valign=top style='width:124.55pt;border:none;border-bottom:
+  solid  1.0pt;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=282 valign=top style='width:140.85pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p style='margin-left:17.0pt;line-height:14.7pt'><span
+  style='font-size:16px'>Quantité m3</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border:solid  1.0pt;
+  border-left:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=center style='text-align:center;line-height:14.7pt'><span
+  style='font-size:16px;'>Prix Unitaire (Ar)</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='margin-right:13.5pt;text-align:right;
+  line-height:14.7pt'><span style='font-size:16px'>Montant
+  (Ar)</span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=531 colspan=2 valign=top style='width:265.4pt;border:solid  1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:16px'>1ere
+  Tranche</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px"'>
+  {% if selectedData.Consomation > selectedData.limite %}
+   {{selectedData.limite}} 
+  {% else %} 
+  {{ selectedData.Consomation }}
+  {% endif %}
+  </span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>{{selectedData.pu}} </span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px;'>
+ 
+  {% if selectedData.Consomation > selectedData.limite %}
+    {% set nombre1 = selectedData.limite %}
+    {% set nombre2 = selectedData.pu %}
+    {% set numerator = nombre1 * nombre2 %}
+  {% else %} 
+     {% set nombre1 = selectedData.Consomation %}
+    {% set nombre2 = selectedData.pu %}
+    {% set numerator = nombre1 * nombre2 %}
+   
+  {% endif %}
+    {{ numerator }}
+  </span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=531 colspan=2 valign=top style='width:265.4pt;border:solid  1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:16px'>2e
+  Tranche</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>
+   {% if selectedData.Consomation > selectedData.limite %} 
+   {% set nombre1 = selectedData.Consomation %}
+    {% set nombre2 = selectedData.limite %}
+    {% set totale = nombre1 - nombre2 %}
+  {{ totale }}
+ 
+  {% endif %}
+  
+  </span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px"'>
+  {% if selectedData.Consomation > selectedData.limite %} 
+  {{ selectedData.pus }}
+  {% endif %}
+ 
+  </span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>
+  {% if selectedData.Consomation > selectedData.limite %} 
+   {% set nombre1 = selectedData.Consomation %}
+    {% set nombre2 = selectedData.limite %}
+    {% set nombre3 = selectedData.pus %}
+    {% set totale = nombre1 - nombre2 %}
+    {% set valeur = totale * nombre3 %}
+  {{ valeur }}
+  {% endif %}
+  </span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=531 colspan=2 valign=top style='width:265.4pt;border:solid  1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:16px'>Prime
+  fixe</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>1000</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>1000</span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=531 colspan=2 valign=top style='width:265.4pt;border:solid  1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=center style='margin-left:63.2pt;text-align:center;
+  line-height:9.7pt'>Sous Total</p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>
+      {% if selectedData.Consomation <= selectedData.limite %}
+            {% set nombre1 = selectedData.Consomation %}
+            {% set nombre2 = selectedData.pu %}
+            {{ (nombre1 * nombre2) + 1000  }}
+        {% else %}
+            {{ ((selectedData.Consomation - selectedData.limite) * selectedData.pus) + ( selectedData.limite * selectedData.pu) + 1000 }}
+         {% endif %}
+  </span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=531 colspan=2 valign=top style='width:265.4pt;border:solid  1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p style='margin-left:2.0pt;line-height:14.7pt'><span
+  style='font-size:16px'>Surtaxe pour fond de
+  renouvellement et extension 5%</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>
+    {% if selectedData.Consomation <= selectedData.limite %}
+            {% set nombre1 = selectedData.Consomation %}
+            {% set nombre2 = selectedData.pu %}
+            {{ ((nombre1 * nombre2) * 5) / 100  }}
+        {% else %}
+        {% set nombre1 = selectedData.Consomation - selectedData.limite %}
+        {% set nombre2 = nombre1 * selectedData.pus  %}
+        {% set nombre3 = selectedData.limite * selectedData.pu  %}
+        {% set nombre4 = nombre2 + nombre3  %}
+
+
+
+            {{ (nombre4 * 5) / 100 }}
+         {% endif %}
+  </span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=531 colspan=2 valign=top style='width:265.4pt;border:solid  1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:16px'>Taxe
+  Communale 1%</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style="position:absolute;
+  margin-left:170px;margin-top:5px;"><img width=90
+  height=80 src="{{ asset('assets/images/image002.png')}}"></span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>
+  {% if selectedData.Consomation <= selectedData.limite %}
+            {% set nombre1 = selectedData.Consomation %}
+            {% set nombre2 = selectedData.pu %}
+            {{ ((nombre1 * nombre2) * 1) / 100  }}
+        {% else %}
+            {{ (((selectedData.Consomation - selectedData.limite) * selectedData.pus) + ( selectedData.limite * selectedData.pu) * 1) / 100 }}
+         {% endif %}
+  </span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=531 colspan=2 valign=top style='width:265.4pt;border:solid  1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:16px'>Redevance
+  pour l'audit 2%</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>
+  {% if selectedData.Consomation <= selectedData.limite %}
+            {% set nombre1 = selectedData.Consomation %}
+            {% set nombre2 = selectedData.pu %}
+            {{ ((nombre1 * nombre2) * 2) / 100  }}
+        {% else %}
+            {{ ((((selectedData.Consomation - selectedData.limite) * selectedData.pus) + ( selectedData.limite * selectedData.pu)  ) * 2) / 100 }}
+         {% endif %}
+  </span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=531 colspan=2 valign=top style='width:265.4pt;border:solid  1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p style='margin-left:2.0pt;line-height:14.7pt'><span
+  style='font-size:16px'>Redevance
+  d'assainissement 2%</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>
+  {% if selectedData.Consomation <= selectedData.limite %}
+            {% set nombre1 = selectedData.Consomation %}
+            {% set nombre2 = selectedData.pu %}
+            {{ ((nombre1 * nombre2) * 2) / 100  }}
+        {% else %}
+            {{ ((((selectedData.Consomation - selectedData.limite) * selectedData.pus) + ( selectedData.limite * selectedData.pu)  ) * 2) / 100 }}
+         {% endif %}
+  </span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=531 colspan=2 valign=top style='width:265.4pt;border:solid  1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:16px'>TVA</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>
+  {% if selectedData.Consomation > 10 %}
+            {% set nombre1 = selectedData.Consomation - 10 %}
+            {% set nombre2 = selectedData.pus %}
+            {{ ((nombre1 * nombre2) * 20) / 100  }}
+       
+    
+  {% endif %}
+    
+  </span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=531 colspan=2 valign=top style='width:265.4pt;border:solid  1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='margin-left:63.2pt;text-align:right;
+  line-height:14.7pt'><span style='font-size:16px'>Sous
+  Total</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=center style='text-align:center'><span
+  style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>
+   {% if selectedData.Consomation <= selectedData.limite %}
+            {% set nombre1 = ((selectedData.Consomation * selectedData.pu) * 5) / 100 %}
+            {% set nombre2 = ((selectedData.Consomation * selectedData.pu) * 1) / 100 %}
+            {% set nombre3 = ((selectedData.Consomation * selectedData.pu) * 2) / 100 %}
+            {% set nombre4 = ((selectedData.Consomation * selectedData.pu) * 2) / 100 %}
+            {% if selectedData.Consomation > 10 %}
+                {% set consomation2 = (selectedData.Consomation - 10) * selectedData.pus %}
+                {% set nombre5 = (consomation2 * 20) / 100 %}
+                {% set totale = nombre1 + nombre2 + nombre3 + nombre4 + nombre5 %}
+            {% else %}
+                {% set totale = nombre1 + nombre2 + nombre3 + nombre4 %}
+
+            
+            {% endif %} 
+
+            {{ totale  }}
+        {% else %}
+          {% set nombre1 = ((((selectedData.Consomation - selectedData.limite) * selectedData.pus) + ( selectedData.limite * selectedData.pu)  ) * 5) / 100 %}
+            {% set nombre2 = ((((selectedData.Consomation - selectedData.limite) * selectedData.pus) + ( selectedData.limite * selectedData.pu)  ) * 1) / 100 %}
+            {% set nombre3 = ((((selectedData.Consomation - selectedData.limite) * selectedData.pus) + ( selectedData.limite * selectedData.pu)  ) * 2) / 100 %}
+            {% set nombre4 = ((((selectedData.Consomation - selectedData.limite) * selectedData.pus) + ( selectedData.limite * selectedData.pu)  ) * 2) / 100 %}
+            {% if selectedData.Consomation > 10 %}
+            {% set consomation2 = (selectedData.Consomation - 10) * selectedData.pus %}
+            {% set nombre5 = (consomation2 * 20) / 100 %}
+               
+                {% set totale = nombre1 + nombre2 + nombre3 + nombre4 + nombre5 %}
+            {% else %}
+                {% set totale = nombre1 + nombre2 + nombre3 + nombre4 %}
+            
+            {% endif %}
+            {{ totale  }}
+         {% endif %}
+         
+  </span></p>
+  </td>
+ </tr>
+ <tr style='height:11.6pt'>
+  <td width=531 colspan=2 valign=top style='width:265.4pt;border:solid  1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='margin-left:63.2pt;text-align:right;
+  line-height:14.7pt'><span style='font-size:16px'>TOTAL</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border-top:none;border-left:
+  none;border-bottom:solid  1.0pt;border-right:solid  1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.6pt'>
+  <p align=right style='text-align:right;line-height:14.7pt'><span
+  style='font-size:16px'>
+   {% if selectedData.Consomation <= selectedData.limite %}
+                                {% set nombre1 = selectedData.Consomation %}
+                                {% set nombre2 = selectedData.pu %}
+                                {% set numerator = nombre1 * nombre2 %}
+                                {% set denominator = 5 %} 
+                                {% set percentage1 = (numerator * denominator) / 100 %}
+                                {% set percentage2 = (numerator * 1) / 100 %}
+                                {% set percentage3 = (numerator * 2) / 100 %}
+                                {% if nombre1 > 10  %}
+                                {% set consomation2 = (selectedData.Consomation - 10) * selectedData.pus %}
+                                {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                {% else %}
+                                {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                {% endif %}
+                                {{ resultatfinale }}
+                            {% else %}
+                            {% set numerator = ((selectedData.Consomation - selectedData.limite) * selectedData.pus) + (selectedData.limite * selectedData.pu)  %}
+                                {% set denominator = 5 %} 
+                            {% set percentage1 = (numerator * denominator) / 100 %}
+                            {% set percentage2 = (numerator * 1) / 100 %}
+                            {% set percentage3 = (numerator * 2) / 100 %}
+                            {% if selectedData.Consomation > 10  %}
+                            {% set consomation2 = (selectedData.Consomation - 10) * selectedData.pus %}
+                            {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                             {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                            {% else %}
+                             {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                            {% endif %}
+                               {{ resultatfinale }}
+                            {% endif %}
+  </span></p>
+  </td>
+ </tr>
+ <tr style='height:11.55pt'>
+  <td width=743 colspan=3 valign=top style='width:371.7pt;border:none;
+  padding:0cm 5.4pt 0cm 5.4pt;height:11.55pt'>
+  <p style='margin-left:2.0pt;line-height:14.65pt'><span
+  style='font-size:16px'>Arrêté à la somme de
+  ARIARY 
+  {% if selectedData.Consomation <= selectedData.limite %}
+                                {% set nombre1 = selectedData.Consomation %}
+                                {% set nombre2 = selectedData.pu %}
+                                {% set numerator = nombre1 * nombre2 %}
+                                {% set denominator = 5 %} 
+                                {% set percentage1 = (numerator * denominator) / 100 %}
+                                {% set percentage2 = (numerator * 1) / 100 %}
+                                {% set percentage3 = (numerator * 2) / 100 %}
+                                {% if nombre1 > 10  %}
+                                {% set consomation2 = (selectedData.Consomation - 10) * selectedData.pus %}
+                                {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                {% else %}
+                                {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                {% endif %}
+                                {{ resultatfinale|numberToWords }}
+                            {% else %}
+                            {% set numerator = ((selectedData.Consomation - selectedData.limite) * selectedData.pus) + (selectedData.limite * selectedData.pu)  %}
+                                {% set denominator = 5 %} 
+                            {% set percentage1 = (numerator * denominator) / 100 %}
+                            {% set percentage2 = (numerator * 1) / 100 %}
+                            {% set percentage3 = (numerator * 2) / 100 %}
+                            {% if selectedData.Consomation > 10  %}
+                            {% set consomation2 = (selectedData.Consomation - 10) * selectedData.pus %}
+                            {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                             {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                            {% else %}
+                             {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                            {% endif %}
+                               {{ resultatfinale|numberToWords }}
+                            {% endif %}
+  
+  </span></p>
+  </td>
+  <td width=213 valign=top style='width:106.3pt;border:none;padding:0cm 5.4pt 0cm 5.4pt;
+  height:11.55pt'>
+  <p style='margin-right:32.5pt;line-height:9.65pt'><span
+  style='font-size:9.0pt;font-family:"Arial","sans-serif"'>Le Directeur</span></p>
+  </td>
+  <td width=188 valign=top style='width:94.05pt;border:none;padding:0cm 5.4pt 0cm 5.4pt;
+  height:11.55pt'>
+  <p ><span style='font-size:8.0pt'>&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr style='height:13.05pt'>
+  <td width=249 valign=top style='width:124.55pt;border:none;padding:0cm 5.4pt 0cm 5.4pt;
+  height:13.05pt'>
+  <p ><span style='font-size:9.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=282 valign=top style='width:140.85pt;border:none;padding:0cm 5.4pt 0cm 5.4pt;
+  height:13.05pt'>
+  <p ><span style='font-size:9.0pt'>&nbsp;</span></p>
+  </td>
+  <td width=613 colspan=3 valign=top style='width:306.65pt;border:none;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.05pt'>
+  <p  style="margin-left:143.0pt"><span
+  style='font-size:9.0pt;font-family:"Arial","sans-serif"'>RATSIMBAZAFY
+  Benjamin Abelson</span></p>
+  </td>
+ </tr>
+</table>
+
+<hr>
+{% endfor %}
+
+</div>
+
+</body>
+
+</html>
+

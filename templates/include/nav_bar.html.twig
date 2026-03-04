@@ -1,0 +1,177 @@
+{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+<style>
+	.img-left-menu {
+		width: 20px;
+		height: 20px;
+		margin-right: 0.5rem;
+	}
+	.addRequest{
+		display: none;
+	}
+	.praticienPharma{
+		display: none;
+	}
+</style>
+<div class="col_exc_1 " style="position:relative; min-width: 291px;margin: -11px;">
+	<link href="{{ asset('assets/css/croppie.css') }}" rel="stylesheet" type="text/css">
+	<h4 class="h4_patient">
+		
+		
+
+	</h4>
+	<div class="bar-container">
+		<i style="position: absolute" class="fas fa-bars bar-icon"></i>
+	</div>
+	<div class="mt-4 container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="img_profile">
+					{% set img =  'assets/images/praticien.jpg'  %}
+					<img src="/{{ img }}">
+					<a class="edit-profile" style="position: relative;cursor:pointer;top: -48px;right: -188px;">
+						<i class="fa fa-camera"></i>
+					</a>
+
+					<div id="uploaded_image"></div>
+					<span></span>
+					<h5>{{ app.user.fullName  }}</h5>
+					<label>
+						{% if is_granted('ROLE_PATIENT') %}Patient{% elseif is_granted('ROLE_PRATICIEN') %}Praticien
+						{% elseif is_granted('ROLE_ADMIN') %}
+							{% trans %}Administrator{% endtrans %}
+						{% endif %}
+					</label>
+				</div>
+			</div>
+
+			<div class="col-12-lg">
+				<div class="upload-image-container">
+					<div id="uploadimageModal" class="modal" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title">{% trans %}Update Image
+										{% endtrans %}</h4>
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-md-8 text-center">
+											<div id="image_demo" style="width:350px; margin-top:30px"></div>
+										</div>
+										<div class="col-md-4" style="padding-top:30px;">
+											<br/>
+											<br/>
+											<br/>
+											<button class="btn btn-success crop_image" style="margin-right: 60px">{% trans %}Update Image{% endtrans %}</button>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-12-lg col">
+				<ul class="menu_suivi" id="side-bar-menu">
+				  
+					{% if is_granted('ROLE_ADMIN') %}
+						<li class="{{ (currentPath == path('admin')) ? 'active' :'' }}">
+							<a href="{{ path('admin') }}"><img src="{{ asset('assets/images/icon/membre.png') }}" class="img-left-menu rounded-circle">Client</a>
+						</li>
+						<li class="{{ (currentPath == path('releve_admin')) ? 'active' :'' }}">
+							<a href="{{ path('releve_admin') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Releve</a>
+						</li>
+						<li class="{{ (currentPath == path('journals_admin')) ? 'active' :'' }}">
+							<a href="{{ path('journals_admin') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Journal</a>
+						</li>
+						<li class="{{ (currentPath == path('recouvrements_admin')) ? 'active' :'' }}">
+							<a href="{{ path('recouvrements_admin') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Recouvrement</a>
+						</li>
+						<li class="{{ (currentPath == path('livret_client')) ? 'active' :'' }}">
+							<a href="{{ path('livret_client') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Livre des Clients</a>
+						</li>
+						<li class="{{ (currentPath == path('clients_bf')) ? 'active' :'' }}">
+							<a href="{{ path('clients_bf') }}"><img src="{{ asset('assets/images/icon/membre.png') }}" class="img-left-menu rounded-circle">Client Bf</a>
+						</li>
+						<li class="{{ (currentPath == path('releve_bf')) ? 'active' :'' }}">
+							<a href="{{ path('releve_bf') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Releve Bf</a>
+						</li>
+						<li class="{{ (currentPath == path('livret_client_bf')) ? 'active' :'' }}">
+							<a href="{{ path('livret_client_bf') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Livre des Clients Bf</a>
+						</li>
+					{% elseif is_granted('ROLE_AUDIT') %}
+					  <li class="{{ (currentPath == path('dashboard_audit')) ? 'active' :'' }}">
+							<a href="{{ path('dashboard_audit') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Tableau de Bord</a>
+						</li>
+					  
+						<li class="{{ (currentPath == path('audit')) ? 'active' :'' }}">
+							<a href="{{ path('audit') }}"><img src="{{ asset('assets/images/icon/membre.png') }}" class="img-left-menu rounded-circle">Client</a>
+						</li>
+						<li class="{{ (currentPath == path('journals_audit')) ? 'active' :'' }}">
+							<a href="{{ path('journals_audit') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Journal</a>
+						</li>
+						{% elseif is_granted('ROLE_CONTROLEUR') %}
+    <li class="{{ (currentPath == path('journals_control')) ? 'active' :'' }}">
+        <a href="{{ path('journals_control') }}">
+            <img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Journal
+        </a>
+    </li>
+    <li class="{{ (currentPath == path('depenses_control')) ? 'active' :'' }}">
+        <a href="{{ path('depenses_control') }}">
+            <img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Dépense
+        </a>
+    </li>
+						
+					{% elseif is_granted('ROLE_CAISSE') %}
+						<li class="{{ (currentPath == path('caisse')) ? 'active' :'' }}">
+							<a href="{{ path('caisse') }}"><img src="{{ asset('assets/images/icon/membre.png') }}" class="img-left-menu rounded-circle">Client</a>
+						</li>
+						<li class="{{ (currentPath == path('journal_caisse')) ? 'active' :'' }}">
+							<a href="{{ path('journal_caisse') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Journal</a>
+						</li>
+						<li class="{{ (currentPath == path('historique_payment')) ? 'active' :'' }}">
+							<a href="{{ path('historique_payment') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Historique payment</a>
+						</li>
+						<li class="{{ (currentPath == path('tranches')) ? 'active' :'' }}">
+							<a href="{{ path('tranches') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Contrat Par Tranche</a>
+						</li>
+						
+					{% elseif is_granted('ROLE_PRINCIPALE') %}
+					   <li class="{{ (currentPath == path('dashboard')) ? 'active' :'' }}">
+							<a href="{{ path('dashboard') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Tableau de Bord</a>
+						</li>
+						<li class="{{ (currentPath == path('principale')) ? 'active' :'' }}">
+							<a href="{{ path('principale') }}"><img src="{{ asset('assets/images/icon/membre.png') }}" class="img-left-menu rounded-circle">Client</a>
+						</li>
+						<li class="{{ (currentPath == path('tranche')) ? 'active' :'' }}">
+							<a href="{{ path('tranche') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Contrat Par Tranche</a>
+						</li>
+						<li class="{{ (currentPath == path('journal_principale')) ? 'active' :'' }}">
+							<a href="{{ path('journal_principale') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Journal</a>
+						</li>
+						<li class="{{ (currentPath == path('user_add')) ? 'active' :'' }}">
+							<a href="{{ path('user_add') }}"><img src="{{ asset('assets/images/icon/membre.png') }}" class="img-left-menu rounded-circle">Utilisateur</a>
+						</li>
+						<li class="{{ (currentPath == path('nombre_facture')) ? 'active' :'' }}">
+							<a href="{{ path('nombre_facture') }}"><img src="{{ asset('assets/images/icon/dashboard.png') }}" class="img-left-menu rounded-circle">Nombre facture</a>
+						</li>
+						
+						
+					{% endif %}
+					
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% block javascripts %}
+	
+{% endblock %}

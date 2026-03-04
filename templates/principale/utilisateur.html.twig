@@ -1,0 +1,167 @@
+  {% extends 'include/base-admin.html.twig' %}
+{%  block title %}
+    Client
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="modal-header text-center">
+        <h5 class="modal-title white-text w-100 font-weight-bold py-2">Utilisateur</h5>
+
+    </div>
+
+
+    <div class="row-table table-content mt-3">
+    <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#exampleModal">
+ Ajouter utilisateur
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Creation Utilisateur </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <form action=" {{ path('register_user') }}  " method="post">
+        <label>Nom Complet</label>
+        <input type="text" name="nom" id ="nom" class="form-control">
+        <label>Identifiant</label>
+        <input type="text" name="username" id ="username" class="form-control">
+        <label>Role</label>
+        <select id="role" name="role" class="form-control">
+            <option value="">choisir le role</option>
+            <option value="admin">Administrateur</option>
+            <option value="caisse">Caissier</option>
+			<option value="audit">Auditeur</option>
+            <option value="controleur">Controleur</option>
+        </select>
+        <label>Mot de Passe</label>
+        <input type="password" name="password" id="password" class="form-control">
+       
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+        <table class="table table-striped" id="example1">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Nom</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for client in utilisateur %}     
+            <tr>
+                <td>{{ client.username }}</td>
+                <td>{{ client.fullName }}</td>
+                <td>
+                    {# Utilisation de "in" est plus sûr que "==" pour les tableaux de rôles #}
+                    {% if "ROLE_ADMIN" in client.roles %}
+                        Administrateur
+                    {% elseif "ROLE_CAISSE" in client.roles %}
+                        Caissier(e)
+                    {% elseif "ROLE_AUDIT" in client.roles %}
+                        Auditaire
+                    {% elseif "ROLE_CONTROLEUR" in client.roles %}
+                        Controleur {# <-- Nouveau rôle ajouté ici #}
+                    {% else %}
+                        Principale
+                    {% endif %}
+                </td>
+                <td> 
+                    <span class="btn btn-info editer" data-id="{{ client.id }}"><i class="fa fa-pencil fa-fw"></i></span>
+                    <span class="btn btn-danger data-remove" data-id="{{ client.id }}"><i class="fa fa-trash-o"></i></span>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function () {
+          
+             $('#example1').DataTable();
+
+        });
+        $(".editer").on('click' , function(e) {
+            $(".loadBody").css("display", "block");
+            e.preventDefault();
+            let id = $(this).data('id');
+            $.ajax({
+                url: "{{ path('add_form_edit_user') }}",
+                type: 'post',
+                dataType: 'json',
+                data: {
+					id: id,	
+				},
+                success: (data) => {
+                    $('.create_body').html(data.form_html);
+                    $("#modal_create_body").modal('show');
+                    $(".loadBody").css("display", "none");
+                },
+                error: (e) => {
+                    $(".loadBody").css("display", "none");
+                    $(".chargementError").css("display", "block");
+                }
+            }).done(() => {
+                $(".loadBody").css("display", "none");
+            });
+        });
+
+        $('.data-remove').on('click', function (e) {
+					e.preventDefault();
+					let $delete = confirm('Êtes-vous sûr de vouloir supprimer l\'utilisateur?');
+					if($delete){
+						$(".loadBody").css("display", "block");
+						let id = $(this).data('id');
+						$.ajax({
+							url: "{{ path('delete_client') }}",
+							type: 'post',
+							data: {
+								id: id,
+								
+							},
+							dataType: "json",
+							success: (data) =>{
+								$(".loadBody").css("display", "none");
+								location.reload();
+							},
+							error: (e) => {
+								$(".loadBody").css("display", "none");
+								$(".chargementError").css("display", "block");
+							}
+						}).done(() => {
+							$(".loadBody").css("display", "none");
+						});
+					}else {
+						return false
+					}
+
+				});
+
+
+
+        
+
+    </script>
+{% endblock %}

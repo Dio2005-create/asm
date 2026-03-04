@@ -1,0 +1,85 @@
+  {% extends 'include/base-admin.html.twig' %}
+{%  block title %}
+    Client
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="modal-header text-center">
+        <h5 class="modal-title white-text w-100 font-weight-bold py-2">Contrat Payment Tranche</h5>
+
+    </div>
+
+
+    <div class="row-table table-content mt-3">
+        <table class="table table-striped" id="example1">
+            <thead>
+            <tr>
+                <th>Code</th>
+                <th>Nom</th>
+                <th>Prenoms </th>
+
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+               
+              
+             {% for contrat in contrat %}     
+                <tr>
+                    <td>{{ contrat.client.code }}</td>
+                    <td>{{ contrat.client.nom }}</td>
+                    <td>{{ contrat.client.prenom }}</td>
+                    
+                    <td>
+                    <a href="{{ path('caisse_tranche',{'id': contrat.id }) }}" class="btn btn-success">Voir</a> 
+                    
+                    </td>                        
+                </tr>
+                  
+             {% endfor %}
+        
+
+
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function () {
+          
+             $('#example1').DataTable();
+
+        });
+        $(".new").on('click' , function(e) {
+            $(".loadBody").css("display", "block");
+            e.preventDefault();
+            $.ajax({
+                url: "{{ path('add_form_client') }}",
+                type: 'post',
+                dataType: 'json',
+                success: (data) => {
+                    $('.create_body').html(data.form_html);
+                    $("#modal_create_body").modal('show');
+                    $(".loadBody").css("display", "none");
+                },
+                error: (e) => {
+                    $(".loadBody").css("display", "none");
+                    $(".chargementError").css("display", "block");
+                }
+            }).done(() => {
+                $(".loadBody").css("display", "none");
+            });
+        });
+
+
+        
+
+    </script>
+{% endblock %}

@@ -1,0 +1,322 @@
+  {% extends 'include/base-admin.html.twig' %}
+{%  block title %}
+    Releve
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="modal-header text-center">
+        <h5 class="modal-title white-text w-100 font-weight-bold py-2">Releve</h5>
+
+    </div>
+    
+    <div class="grid-edit-btn ">
+        
+         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+             + Nouveau Relevé
+         </button>
+    </div>
+    <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width:836px;">
+       <div class="modal-header text-center">
+      
+            <h4 class="modal-title white-text w-100 font-weight-bold py-2">
+                Nouveau Relevé - Asmeau
+            </h4>
+      
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+    </div>
+    <!--Content-->
+  
+    {{ form_start(form, {'attr': {'action': path('register_releve_bf') }}) }}
+
+        <div class="modal-body" style="width:100%; padding: 2rem">
+        
+                <label class="active" for="form1">Client</label>
+                {{ form_widget(form.client, {'attr': { 'class': 'form-control chosen-select' }}) }}
+
+            <label class="active" for="form1">Nom</label>
+            <input type="text" name="nom" id="nom" class="form-control">
+            <hr>
+            <nav class="nav nav-tabs">
+                <a class="nav-item nav-link active" href="#p1" data-toggle="tab">Indexes</a>
+                <a class="nav-item nav-link" href="#p2" data-toggle="tab">Tranches</a>
+            </nav>
+            <div class="tab-content">
+                <div class="tab-pane active" id="p1">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Relevé Précédent</th>
+                                <th>Nouveau Relevé</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Date</td>
+                                <td><input type="text" name="ancienReleve" id="ancienReleve" class="form-control"></td>
+                                <td><input type="date" name="dateReleve" id="dateReleve" class="form-control" ></td>
+                            </tr>
+                            <tr>
+                                <td>Mois Releve</td>
+                                <td><input type="text" name="mois" id="mois" class="form-control" disabled></td>
+                                <td><input type="month" name="months" id="months" class="form-control"></td>
+                            </tr>
+                            <tr>
+                                <td>Ancien Index</td>
+                                <td><input type="text" name="ancienIndex" id="ancienIndex" class="form-control" disabled></td>
+                                <td><input type="text" name="anciensIndex" id="anciensIndex" class="form-control" ></td>
+                            </tr>
+                            <tr>
+                                <td>Nouvel Index</td>
+                                <td><input type="text" name="nouvelIndex" id="nouvelIndex" class="form-control" disabled></td>
+                                <td><input type="number" name="nouvelleIndex" id="nouvelleIndex" class="form-control" min="0" placeholder="0" ></td>
+                            </tr>
+                            <tr>
+                                <td>Consommation</td>
+                                <td><input type="text" name="consommation" id="consommation" class="form-control" disabled></td>
+                                <td><input type="text" name="consommations" id="consommations" class="form-control" ></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+                <div class="tab-pane" id="p2">
+                <div class="md-form mt-3">
+                    <label class="active" for="form1">Limite 1er Tranche </label>
+                    <input type="number" name="limite" id="limite" min="0" value="0"> (Mettez zéro pour désactiver)
+                </div>
+                <div class="md-form mt-3">
+                    <label class="active" for="form1">PU 1er Tranche</label>
+                    <input type="number" name="pu" id="pu" min="0" value="3000" style="width:130px">
+                    <label class="active" for="form1">Qté 1er Tranche </label>
+                    <input type="number" name="quantite1" id="quantite1" min="0" placeholder="0" style="width:130px" disabled>
+                    <label class="active" for="form1">Montant 1è Tranche </label>
+                    <input type="number" name="montant1" id="montant1" min="0" placeholder="0" style="width:130px" disabled>
+                </div>
+                <div class="md-form mt-3">
+                    <label class="active" for="form1">PU 2e Tranche</label>
+                    <input type="number" name="pus" id="pus" min="0" value="0" style="width:130px;margin-left:5px;">
+                    <label class="active" for="form1">Qté 2e Tranche </label>
+                    <input type="number" name="quantite2" id="quantite2" min="0" placeholder="0" style="width:130px;margin-left:6px" disabled>
+                    <label class="active" for="form1">Montant 2è Tranche </label>
+                    <input type="number" name="montant2" id="montant2" min="0" placeholder="0" style="width:130px" disabled>
+                </div>
+                
+                </div>
+            </div>
+            
+            
+        
+
+        </div>
+        <div class="modal-footer justify-content-center">
+            <button type="submit" class="btn btn-outline-primary waves-effect "><i class="fas fa-save ml-1"></i> {% trans %}Save{% endtrans %} </button>
+            <button type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal" aria-label="Close"><i class="fas fa-remove ml-1"></i> {% trans %}Cancel{% endtrans %} </button>
+        </div>
+    {{ form_end(form) }}
+    </div>
+  </div>
+</div>
+   
+
+
+    <div class="row-table table-content mt-3">
+        <table class="table table-striped" id="example1">
+            <thead>
+            <tr>
+                
+                <th>Date Relevé</th>
+                <th>Code Client</th>
+                <th>Nom</th>
+                <th>Quartier</th>
+                <th>Ancien Index</th>
+                <th>Nouvel Index</th>
+                <th>Consom.</th>
+                <th>Action</th
+
+            </tr>
+            </thead>
+            <tbody>
+               
+              
+             {% for releve in releve %}     
+                <tr>
+                    
+                    <td>{{ releve.dateReleve|date('d-m-Y') }}</td>
+                    <td>{{ releve.client.code }}</td>
+                    <td>{{ releve.client.nom }} {{ releve.client.prenom }}</td>
+                    <td>{{ releve.client.quartier.nom }}</td>
+                    <td>{{ releve.ancienIndex }}</td>      
+                    <td>{{ releve.nouvelIndex }}</td>   
+                    <td>{{ releve.Consomation }}</td>  
+                    <td>
+                       
+                        <span class="btn btn-danger data-remove" data-id="{{ releve.id }}">Supprimer</span>
+                   
+                    </td>     
+                                   
+                </tr>
+                  
+             {% endfor %}
+        
+
+
+            </tbody>
+        </table>
+    </div>
+ 
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function () {
+          
+             $('#example1').DataTable();
+              $(document).keydown(function (event) {
+                document.addEventListener("keydown", function(event) {
+                    if (event.altKey && event.key === "y") {
+                        event.preventDefault();
+
+                        $("#exampleModalLong").modal("show");
+                    }
+                });
+             });
+             
+
+      
+        });
+
+                $('.data-remove').on('click', function (e) {
+            e.preventDefault();
+            var $delete = confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');
+            if($delete){
+                $(".loadBody").css("display", "block");
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "{{ path('delete_bf_releve') }}",
+                    type: 'post',
+                    data: {
+                        id: id
+                    },
+                    dataType: "json",
+                    success: (data) =>{
+                        $(".loadBody").css("display", "none");
+                        location.reload();
+                    },
+                    error: (e) => {
+                        $(".loadBody").css("display", "none");
+                        $(".chargementError").css("display", "block");
+                    }
+                }).done(() => {
+                    $(".loadBody").css("display", "none");
+                });
+            }else {
+                return false
+            }
+
+        });
+        $(".edit").on('click' , function(e) {
+            $(".loadBody").css("display", "block");
+            e.preventDefault();
+            let id = $(this).data('id');
+            $.ajax({
+                url: "{{ path('add_form_releve') }}",
+                type: 'post',
+                data: {
+                    id: id,
+                },
+                dataType: 'json',
+                success: (data) => {
+                    $('.create_body').html(data.form_html);
+                    $("#modal_create_body").modal('show');
+                    $(".loadBody").css("display", "none");
+                },
+                error: (e) => {
+                    $(".loadBody").css("display", "none");
+                    $(".chargementError").css("display", "block");
+                }
+            }).done(() => {
+                $(".loadBody").css("display", "none");
+            });
+        });
+
+       
+
+        var date = new Date();
+        var dateString = date.toISOString().split('T')[0];
+        var dateInput = document.getElementById('dateReleve');
+        dateInput.value = dateString;
+        var monthInput = document.getElementById('months');
+        var formattedMonth = date.toISOString().slice(0, 7);
+        monthInput.value = formattedMonth;
+        $('#releve_bf_client').on('change', function() {
+            var selectedValue = $(this).val();
+            $.ajax({
+                url: '{{ path("releve_bf_check") }}',
+                method: 'POST', 
+                data: { id: selectedValue },
+                success: function(response) {              
+                    var nom = document.getElementById('nom'); 
+                    nom.value = response.nom;
+                     var ancienReleveInput = document.getElementById('ancienReleve');
+                     ancienReleveInput.value=response.date;
+                     var moisInput = document.getElementById('mois');
+                     moisInput.value=response.mois;
+                     var ancienIndexInput = document.getElementById('ancienIndex');
+                     ancienIndexInput.value=response.ancienIndex;
+                     var nouvelIndexInput = document.getElementById('nouvelIndex');
+                     nouvelIndexInput.value=response.nouvelIndex;
+                     var anciensIndexInput = document.getElementById('anciensIndex');
+                     anciensIndexInput.value=response.nouvelIndex;
+                     var consommationInput = document.getElementById('consommation');
+                     consommationInput.value=response.consommation
+                },
+                error: function(error) {
+                    // Gérer les erreurs ici
+                }
+            });
+        });
+         $('#nouvelleIndex').on('change', function() {
+            var nouvelleIndexInput = document.getElementById('nouvelleIndex').value;
+            var anciensIndexInput = document.getElementById('anciensIndex').value;
+            var reponse = nouvelleIndexInput - anciensIndexInput;
+            var consommationsInput = document.getElementById('consommations');
+            consommationsInput.value=reponse;
+            var quantite1Input = document.getElementById('quantite1');
+            var quantite2Input = document.getElementById('quantite2');
+            var montant1Input = document.getElementById('montant1');
+            var puInput = document.getElementById('pu').value;
+            quantite1Input.value = reponse;
+            montant1Input.value = reponse * puInput;
+            
+        });
+
+        $(document).ready(function () {
+        
+            $('.chosen-select').chosen({width: "100%"});
+
+            $('.chosen-select').trigger('chosen:updated');
+        });
+       
+ 
+
+
+
+
+        
+
+    </script>
+{% endblock %}

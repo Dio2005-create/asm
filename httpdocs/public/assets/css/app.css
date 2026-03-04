@@ -1,0 +1,140 @@
+
+.h2, h2 {
+    font-size: 2rem;
+    text-shadow:3px 2px 3px rgb(6, 186, 113);
+    color:rgb(6, 186, 113);
+}
+
+.col{
+    border: 1px solid #e7e5e6;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 20px;
+    margin-right: 30px;
+    border-radius: 20px;
+    text-shadow:2px 1px 2px rgb(6, 186, 113);;
+    box-shadow:1px 1px 2px #e8e6e7;
+	box-shadow:3px 3px 4px #a5919b;
+}
+
+.col.text-center {
+    border: none;
+}
+
+.row.conn {
+    border: 2px solid #e7e5e6;
+    padding: 12px;
+    width: 100%;
+    border-top-left-radius:15px;
+    border-bottom-right-radius:15px;
+    background-color: #e8e6e7;
+    text-shadow:3px 2px 3px rgb(6, 186, 113);;
+    box-shadow:2px 2px 3px #e8e6e7;
+	box-shadow:3px 3px 4px #a5919b;
+}
+
+img {
+    width: 200px;
+}
+
+.col.r {
+    background: #ec232a;
+    color: white;
+    cursor: pointer;
+}
+
+.col.v {
+    background: rgb(6, 186, 113);
+    color: white;
+    border-radius:0;
+    text-align: justify;
+}
+
+.col.b {
+    background: rgb(6, 186, 113);
+    color: white;
+    box-shadow:2px 2px 3px #e8e6e7;
+	box-shadow:3px 3px 4px #a5919b;
+}
+
+div#b {
+    border-radius: 0;
+}
+
+a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+
+
+.videos-help.col.vi {
+    border: none;
+}
+
+#vi {
+    display: none;
+}
+
+
+th.text-center {
+    background-color: #acacf1;
+    color: white;
+}
+
+.homeA {
+    z-index: -1;
+    top: 0;
+    width: 100%;
+    background: url(../images/accueil.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    background-position: top left;
+}
+
+
+.target{
+    display:none;
+}
+
+video#div1 {
+    cursor: pointer;
+}
+
+video#div2 {
+    cursor: pointer;
+}
+video#div9 {
+    cursor: pointer;
+}
+
+video#div10 {
+    cursor: pointer;
+}
+
+img.img {
+    width: 345px;
+    height: 288px;
+    margin-left: 2px;
+}
+
+div#div1 {
+    box-shadow: none!important;
+    border: none;
+}
+
+div#div2 {
+    box-shadow: none!important;
+    border: none;
+}
+
+div#div9 {
+    box-shadow: none!important;
+    border: none;
+}
+
+div#div10 {
+    box-shadow: none!important;
+    border: none;
+}

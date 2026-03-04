@@ -1,0 +1,155 @@
+  {% extends 'include/base-admin.html.twig' %}
+{%  block title %}
+    Client
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="modal-header text-center">
+        <h5 class="modal-title white-text w-100 font-weight-bold py-2">Client</h5>
+
+    </div>
+    <div class="grid-edit-btn ">
+         <button class="btn btn-primary new">+ Nouveau Client Bf</button>
+          <a href="{{ path('export_bf_client') }}" class="btn btn-success">Exporter</a>
+
+    </div>
+
+
+    <div class="row-table table-content mt-3">
+        <table class="table table-striped" id="example1">
+            <thead>
+            <tr>
+                <th>Code</th>
+                <th>Nom</th>
+                <th>Prenoms </th>
+                <th>Adresse</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+               
+              
+             {% for client in client %}     
+                <tr>
+                    <td>{{ client.code }}</td>
+                    <td>{{ client.nom }}</td>
+                    <td>{{ client.prenom }}</td>
+                    <td>{{ client.adresse }}</td>
+                    <td style="display:flex">
+                        <span class="btn btn-info editer" data-id="{{ client.id }}">Modifier</span>
+                       
+                    </td>                        
+                </tr>
+                  
+             {% endfor %}
+        
+
+
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(".editer").on('click', function(e) {
+            $(".loadBody").css("display", "block");
+            let id = $(this).data('id');
+            let type = "bf"; // Assurez-vous que "bf" est bien défini ici
+            
+            // Log des données envoyées
+            console.log("Sending data:", {id: id, type: type});
+        
+            $.ajax({
+                url: "{{ path('add_form_edit_client') }}",
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    type: type
+                },
+                success: (data) => {
+                    console.log("Received data:", data);
+                    if (data.form_html) {
+                        $('.create_body').html(data.form_html);
+                        $("#modal_create_body").modal('show'); // Assurez-vous que la modal s'affiche
+                        $(".loadBody").css("display", "none");
+                    }
+                },
+                error: (e) => {
+                    console.log("Error:", e);
+                    $(".loadBody").css("display", "none");
+                    $(".chargementError").css("display", "block");
+                }
+            }).done(() => {
+                $(".loadBody").css("display", "none");
+            });
+        });
+        
+        
+        
+
+        $(".new").on('click' , function(e) {
+            $(".loadBody").css("display", "block");
+            e.preventDefault();
+             let type = "bf"
+            $.ajax({
+                url: "{{ path('add_form_client') }}",
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    type:type
+				},
+                success: (data) => {
+                    $('.create_body').html(data.form_html);
+                    $("#modal_create_body").modal('show');
+                    $(".loadBody").css("display", "none");
+                },
+                error: (e) => {
+                    $(".loadBody").css("display", "none");
+                    $(".chargementError").css("display", "block");
+                }
+            }).done(() => {
+                $(".loadBody").css("display", "none");
+            });
+        });
+
+         $('.couper').on('click', function (e) {
+            e.preventDefault();
+            var $delete = confirm("Êtes-vous sûr de faire la coupure?");
+            if($delete){
+                $(".loadBody").css("display", "block");
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "{{ path('coupure_client') }}",
+                    type: 'post',
+                    data: {
+                        id: id,
+                    },
+                    dataType: "json",
+                    success: (data) =>{
+                        $(".loadBody").css("display", "none");
+                        location.reload();
+                    },
+                    error: (e) => {
+                        $(".loadBody").css("display", "none");
+                        $(".chargementError").css("display", "block");
+                    }
+                }).done(() => {
+                    $(".loadBody").css("display", "none");
+                });
+            }else {
+                return false
+            }
+        });
+
+
+        
+
+    </script>
+{% endblock %}

@@ -1,0 +1,219 @@
+{% extends 'include/base-admin.html.twig' %}
+
+{% block title %}Journal de caisse{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .navigation { margin-top: 20px; }
+        .pagination {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+        }
+        .pagination li { margin: 0 5px; }
+        .pagination li a, .pagination li span {
+            padding: 8px 16px;
+            border: 1px solid #007bff;
+            color: #007bff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .pagination li.active span { background-color: #007bff; color: white; }
+        
+        /* Aligner les exports avec la recherche DataTable */
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 10px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .form-inline-custom {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="modal-header text-center">
+        <h5 class="modal-title white-text w-100 font-weight-bold py-2">Journal de Caisse</h5>
+    </div>
+
+    {# 1. FORMULAIRE PRINCIPAL UNIQUE #}
+    <form method="post" id="year-form" class="mb-4">
+        <div class="form-inline-custom">
+            <div>
+                <label class="small font-weight-bold d-block">Type de journal</label>
+                <select name="journal_type" id="journal_type" class="form-control form-control-sm">
+                    <option value="annuel">Annuel</option>
+                    <option value="journalier" {% if selectJournal == "journalier" %}selected{% endif %}>Journalier</option>
+                    <option value="mensuel" {% if selectJournal == "mensuel" %}selected{% endif %}>Mensuel</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="small font-weight-bold d-block">Année</label>
+                <select id="year" name="year" class="form-control form-control-sm">
+                    {% for year in years %}
+                        <option value="{{ year.year }}" {% if year.year == selectedYear %}selected{% endif %}>{{ year.year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label class="small font-weight-bold d-block">Mois</label>
+                <select name="month" id="month" class="form-control form-control-sm">
+                    <option value="">Tous les mois</option>
+                    {% for key, month_name in months %}
+                        <option value="{{ key }}" {% if key == selectedMonth %}selected{% endif %}>{{ month_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {# FILTRE JOUR : Affiché uniquement si 'journalier' est sélectionné #}
+            <div id="day_container" style="{% if selectJournal != 'journalier' %}display:none;{% endif %}">
+                <label class="small font-weight-bold d-block">Jour</label>
+                <select id="day" name="day" class="form-control form-control-sm">
+                    <option value="">Choisir...</option>
+                    {% for d in 1..31 %}
+                        {% set d_val = d < 10 ? '0' ~ d : d %}
+                        <option value="{{ d_val }}" {% if selectedDay == d_val %}selected{% endif %}>{{ d_val }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="align-self-end">
+                <input type="submit" value="Filtrer" class="btn btn-sm btn-success">
+                <a href="{{ path('journals_control') }}" class="btn btn-sm btn-outline-secondary">Réinitialiser</a>
+            </div>
+        </div>
+    </form>
+
+{% if releves is defined %}
+    {# 2. ALIGNEMENT EXPORT (GAUCHE) ET RECHERCHE (DROITE) #}
+    <div class="table-controls">
+        <div class="export-actions">
+            {% if selectedYear and selectedMonth and selectedDay %}
+                <a href="{{ path('generates_excel_audit_day', {'year': selectedYear,'month': selectedMonth,'day':selectedDay}) }}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-file-excel"></i> Export Excel
+                </a>
+            {% elseif selectedYear and selectedMonth %}
+                <a href="{{ path('generer_audit_excel_mois', {'year': selectedYear,'month': selectedMonth}) }}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-file-excel"></i> Export Excel
+                </a>
+            {% else %}
+                <a href="{{ path('generates_audit_excel', {'year': selectedYear}) }}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-file-excel"></i> Export Excel
+                </a>
+            {% endif %}
+        </div>
+        <div id="search-container"></div>
+    </div>
+
+    <div class="row-table table-content">
+        <table class="table table-striped" id="example1">
+            <thead>
+                <tr>
+                    <th>Caisse</th>
+                    <th>N° Pièce</th>
+                    <th>Date</th>
+                    <th>Libellé</th>
+                    <th>Nom Client</th>
+                    <th>Prenom Client</th>
+                    <th>Conso</th>
+                    <th>Mois</th>
+                    <th>Montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in releves %}
+                    <tr>
+                        {% if item is releve %}
+                            <td>{{ item.comptable ? item.comptable.fullName : '' }}</td>
+                            <td><strong>{{ item.id }}</strong></td>
+                            <td>{{ item.factureDatePaiement|date('d/m/Y') }}</td>
+                            <td>{{ item.client.code }}</td>
+                            <td>{{ item.client.nom }}</td>
+                            <td>{{ item.client.prenom }}</td>
+                            <td>{{ item.Consomation }}</td>
+                            <td>{{ item.dateReleve|date('m/Y') }}</td>
+                            <td>
+                                {% set result = (item.Consomation * item.pu) + 1000 %} 
+                                {{ result|number_format(0, '.', ' ') }} Ar
+                            </td>
+                        {% elseif item is paiement %}
+                            <td>{{ item.caisse.fullName|default('') }}</td>
+                            <td><strong>TR-{{ item.id }}</strong></td>
+                            <td>{{ item.date|date('d/m/Y') }}</td>
+                            <td>{{ item.contrat.client.code|default('-') }}</td>
+                            <td>{{ item.contrat.client.nom|default('-') }}</td>
+                            <td>{{ item.contrat.client.prenom|default('-') }}</td>
+                            <td>-</td>
+                            <td>{{ item.date|date('m/Y') }}</td>
+                            <td>{{ item.argent|number_format(0, '.', ' ') }} Ar</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot style="background-color: #f8f9fa; border-top: 2px solid #333;">
+                <tr style="background-color: #eee;">
+                    <td colspan="6" class="text-right font-weight-bold"></td>
+                    <td class="text-center border-left">
+                        <small class="d-block text-uppercase">Total Recettes</small>
+                        <strong class="text-success">{{ totalRecettesGlobal|number_format(0, '.', ' ') }} Ar</strong>
+                    </td>
+                    <td class="text-center border-left">
+                        <small class="d-block text-uppercase">Total Dépenses</small>
+                        <strong class="text-danger">{{ totalDepenses|number_format(0, '.', ' ') }} Ar</strong>
+                    </td>
+                    <td class="text-center border-left" style="background-color: #e9ecef;">
+                        <small class="d-block text-uppercase font-weight-bold">Bénéfice</small>
+                        <strong style="color: #004085;">{{ (totalRecettesGlobal - totalDepenses)|number_format(0, '.', ' ') }} Ar</strong>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="navigation d-flex justify-content-center mt-4">
+        {{ knp_pagination_render(releves) }}
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            // 1. Gestion de l'affichage du champ Jour
+            $('#journal_type').change(function() {
+                if ($(this).val() === 'journalier') {
+                    $('#day_container').fadeIn();
+                } else {
+                    $('#day_container').fadeOut();
+                    $('#day').val(''); // Reset du jour si on repasse en mensuel/annuel
+                }
+            });
+
+            // 2. Configuration DataTable et Recherche
+            var table = $('#example1').DataTable({
+                "paging": false,
+                "info": false,
+                "searching": true,
+                "dom": 'f' 
+            });
+
+            $('.dataTables_filter').appendTo('#search-container');
+            $('.dataTables_filter label').css('margin-bottom', '0');
+            $('.dataTables_filter input').addClass('form-control form-control-sm').attr('placeholder', 'Rechercher...');
+        });
+    </script>
+{% endblock %}

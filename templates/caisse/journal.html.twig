@@ -1,0 +1,166 @@
+{% extends 'include/base-admin.html.twig' %}
+{% block title %}
+    Journal de caisse
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="modal-header text-center">
+        <h5 class="modal-title white-text w-100 font-weight-bold py-2">Journal de Caisse</h5>
+    </div>
+
+    <div class="row-table table-content mt-3">
+        <table class="table table-striped" id="example1">
+            <thead>
+                <tr>
+                    <th>Caisse</th>
+                    <th>Type De Payment</th>
+                    <th>Date</th>
+                    <th>Code Client</th>
+                    <th>Nom Client</th>
+                    <th>Prenom Client</th>
+                    <th>Mois du releve</th>
+                    <th>Consommation</th>
+                    <th>Montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set montantTotal = 0 %}
+                {% for releve in releves %}
+                    <tr>
+                        <td>
+                        {% if releve.comptable != null %}
+                             {{ releve.comptable.fullName}}
+                        {% endif %}
+                       </td>
+                        <td>
+                        {% if releve.type != null %}
+                        {{ releve.type }} 
+                        {% endif %}
+                        </td>
+                        <td>{{ releve.factureDatePaiement|date('d/m/Y') }}</td>
+                        <td>{{ releve.client.code }}</td>
+                        <td>{{ releve.client.nom }}</td>
+                        <td>{{ releve.client.prenom }}</td>
+                        <td>{{ releve.dateReleve|date('m/Y') }}</td>
+                        <td>{{ releve.Consomation }}</td>
+                        <td>
+                           {% if releve.limite != null %}
+                                {% if releve.Consomation <= releve.limite %}
+                                        {% set nombre1 = releve.Consomation %}
+                                        {% set nombre2 = releve.pu %}
+                                        {% set numerator = nombre1 * nombre2 %}
+                                        {% set denominator = 5 %} 
+                                        {% set percentage1 = (numerator * denominator) / 100 %}
+                                        {% set percentage2 = (numerator * 1) / 100 %}
+                                        {% set percentage3 = (numerator * 2) / 100 %}
+                                        {% if nombre1 > 10 and releve.pus != null  %}
+                                        {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                        {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                        {% else %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                        {% endif %}
+										{% if releve.client.isSpecific == true %}
+											{% set resultatfinale = resultatfinale - 50000 %}
+										{% endif %}
+                                        {{ resultatfinale }}
+                                    {% else %}
+                                    {% set numerator = ((releve.Consomation - releve.limite) * releve.pus) + (releve.limite * releve.pu)  %}
+                                        {% set denominator = 5 %} 
+                                    {% set percentage1 = (numerator * denominator) / 100 %}
+                                    {% set percentage2 = (numerator * 1) / 100 %}
+                                    {% set percentage3 = (numerator * 2) / 100 %}
+                                    {% if releve.Consomation > 10 and releve.pus != null  %}
+                                    {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                    {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                    {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                    {% else %}
+                                    {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+									
+                                    {% endif %}
+									{% if releve.client.isSpecific == true %}
+											{% set resultatfinale = resultatfinale - 50000 %}
+										{% endif %}
+                                    {{ resultatfinale }}
+                                    {% endif %}
+                                    {% else %}
+                                      {% set nombre1 = releve.Consomation %}
+                                        {% set nombre2 = releve.pu %}
+                                        {% set numerator = nombre1 * nombre2 %}
+                                        {% set denominator = 5 %} 
+                                        {% set percentage1 = (numerator * denominator) / 100 %}
+                                        {% set percentage2 = (numerator * 1) / 100 %}
+                                        {% set percentage3 = (numerator * 2) / 100 %}
+                                        {% if nombre1 > 10 and releve.pus != null  %}
+                                        {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                        {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                        {% else %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                        {% endif %}
+										{% if releve.client.isSpecific == true %}
+											{% set resultatfinale = resultatfinale - 50000 %}
+										{% endif %}
+                                        {{ resultatfinale }}
+                                    
+                        {% endif %}
+                            {% set montantTotal = montantTotal + resultatfinale %}
+                        </td>
+                    </tr>
+                {% endfor %}
+				  {% for tranche in paymentTranches %}
+                    <tr>
+                        <td>{{ tranche.caisse.fullName }}</td>
+                        <td>Tranche de paiement</td>
+                        <td>{{ tranche.date|date('d/m/Y') }}</td>
+						
+                        <td>
+						 {% if tranche.contrat != null %}
+                           {{ tranche.contrat.client.code }}
+                        {% endif %}
+						</td>
+						 <td>
+						 {% if tranche.contrat != null %}
+                           {{ tranche.contrat.client.nom }}
+                        {% endif %}
+						</td>
+						  <td>
+						 {% if tranche.contrat != null %}
+                           {{ tranche.contrat.client.prenom }}
+                        {% endif %}
+						</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ tranche.argent }}</td>
+                    </tr>
+                    {% set montantTotal = montantTotal + tranche.argent %}
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="7"></td>
+                    <td>Total :</td>
+                    <td>{{ montantTotal }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function () {
+          
+             $('#example1').DataTable();
+
+        });
+    </script>
+{% endblock %}

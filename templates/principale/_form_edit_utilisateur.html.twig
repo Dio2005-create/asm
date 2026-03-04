@@ -1,0 +1,43 @@
+ 
+    <div class="modal-header text-center">
+      
+            <h4 class="modal-title white-text w-100 font-weight-bold py-2">
+                Modification Information Utilisateur
+            </h4>
+      
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+    </div>
+    <!--Content-->
+    <form action="{{path('register_edit_user')}}" method="POST">
+    <!--Body-->
+    <div class="modal-body" style="width:100%; padding: 2rem">
+       <div class="md-form">
+            <label class="active" for="form1">Nom Complet</label>
+            <input type="text" name="nom" id ="nom" class="form-control" value="{{ user.fullName }}">
+            <input type="hidden" name="id" value="{{ user.id }}">
+        </div>
+        <div class="md-form">
+            <label>Mot de Passe</label>
+        <input type="password" name="password" id="password" class="form-control">
+       
+        </div>
+        
+    </div>
+    <div class="modal-footer justify-content-center">
+        <button type="submit" class="btn btn-outline-primary waves-effect "><i class="fas fa-save ml-1"></i> {% trans %}Save{% endtrans %} </button>
+        <button type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal" aria-label="Close"><i class="fas fa-remove ml-1"></i> {% trans %}Cancel{% endtrans %} </button>
+    
+    </div>
+
+    </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+           
+            $('.chosen-select').chosen({width: "100%"});
+
+            $('.chosen-select').trigger('chosen:updated');
+        })
+    </script>

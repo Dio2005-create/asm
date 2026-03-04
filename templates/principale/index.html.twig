@@ -1,0 +1,273 @@
+  {% extends 'include/base-admin.html.twig' %}
+{%  block title %}
+    
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    
+<style>
+    .dashboard {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px;
+    }
+
+    /* Style pour chaque cadre */
+    .dashboard .cadre {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        margin: 0 10px;
+        flex: 1;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    /* Effet d'ombre au survol */
+    .dashboard .cadre:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Style pour les titres */
+    .dashboard .cadre h3 {
+        font-size: 17px;
+        margin-bottom: 10px;
+    }
+
+    /* Style pour les valeurs */
+    .dashboard .cadre p {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+    }
+    .dashboard-form {
+        max-width: 550px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Styles pour les groupes de formulaire */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    /* Styles pour les étiquettes */
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    /* Styles pour les sélecteurs */
+    .form-select {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    /* Style pour le bouton */
+    .btn-submit {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Effet de survol sur le bouton */
+    .btn-submit:hover {
+        background-color: #0056b3;
+    }
+
+</style>
+{% endblock %}
+
+{% block body %}
+    <div class="modal-header text-center">
+        <h5 class="modal-title white-text w-100 font-weight-bold py-2">Tableau de Bord</h5>
+
+    </div>
+   <form method="post" action="{{path('dashboard')}}" id="year-form" class="dashboard-form">
+        <label for="year">Sélectionnez une année :</label>
+        <select id="year" name="year">
+            {% for year in years %}
+                <option value="{{ year.year }}" {% if year.year == selectedYear %}selected{% endif %}>{{ year.year }}</option>
+            {% endfor %}
+        </select>
+        <label for="month">Mois :</label>
+        <select name="month" id="month">
+            <option value="">Tous les mois</option>
+            {% for month in months %}
+                <option value="{{ loop.index }}" {% if loop.index == selectedMonth %}selected{% endif %}>{{ month }}</option>
+            {% endfor %}
+        </select>
+        
+        <input type="submit" value="Afficher" class="btn-submit">
+    </form>
+
+      <div class="dashboard">
+        <!-- Cadre 1 : Affichage du nombre total de relevés -->
+        <div class="cadre">
+            <h3>Nombre total de relevés :</h3>
+            <p>{{ nombreTotalReleves }}({{ sommeTotaleFinale }} Ariary)</p>
+        </div>
+
+        <!-- Cadre 2 : Affichage du nombre de relevés payés -->
+        <div class="cadre">
+            <h3>Nombre de relevés payés :</h3>
+            <p>{{ nombreRelevesPayes }}({{ sommePayesFinale }} Ariary)</p>
+        </div>
+
+        <!-- Cadre 3 : Affichage du nombre de relevés non payés -->
+        <div class="cadre">
+            <h3>Nombre de relevés non payés :</h3>
+            <p>{{ nombreRelevesNonPayes }}({{ sommeNPayesFinale }} Ariary)</p>
+        </div>
+        
+    </div>
+     <div class="modal-header text-center">
+        <h5 class="modal-title white-text w-100 font-weight-bold py-2">Releve Non Payés</h5>
+
+    </div>
+<div class="row-table table-content mt-3">
+ <form action="{{ path('dashboard') }}" method="POST" class="search-form mb-2">
+        <input type="text" name="search"  placeholder="Rechercher..." value="{{ search }}">
+        <button type="submit">Rechercher</button>
+    </form>
+
+
+        <table class="table table-striped" id="example1">
+            <thead>
+            <tr>
+               
+                <th>Date Relevé</th>
+                <th>Code Client</th>
+                <th>Nom</th>
+                <th>Quartier</th>
+                <th>Ancien Index</th>
+                <th>Nouvel Index</th>
+                <th>Mois</th>
+                <th>Consom.</th>
+                <th>Montant</th>
+
+            </tr>
+            </thead>
+            <tbody>
+               
+               {% set montantTotal = 0 %}
+             {% for releve in releve %}     
+                <tr>
+                   
+                    <td>{{ releve.dateReleve|date('d-m-Y') }}</td>
+                    <td>{{ releve.client.code }}</td>
+                    <td>{{ releve.client.nom }} {{ releve.client.prenom }}</td>
+                    <td>{{ releve.client.quartier.nom }}</td>
+                    <td>{{ releve.ancienIndex }}</td>      
+                    <td>{{ releve.nouvelIndex }}</td>   
+                    <td>
+                        {% set variable1 = releve.mois %}
+                        {% set variable2 = "/" %}
+                                            {% set variable3 = releve.annee %}
+                                            {% set resultat = variable1 ~ variable2 ~ variable3 %}
+                                            {{ resultat }}
+                    </td>
+                    <td>{{ releve.Consomation }}</td>  
+                    <td>
+                         {% if releve.limite != null %}
+                                {% if releve.Consomation <= releve.limite %}
+                                        {% set nombre1 = releve.Consomation %}
+                                        {% set nombre2 = releve.pu %}
+                                        {% set numerator = nombre1 * nombre2 %}
+                                        {% set denominator = 5 %} 
+                                        {% set percentage1 = (numerator * denominator) / 100 %}
+                                        {% set percentage2 = (numerator * 1) / 100 %}
+                                        {% set percentage3 = (numerator * 2) / 100 %}
+                                        {% if nombre1 > 10 and releve.pus != null  %}
+                                        {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                        {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                        {% else %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                        {% endif %}
+                                        {{ resultatfinale }}
+                                    {% else %}
+                                    {% set numerator = ((releve.Consomation - releve.limite) * releve.pus) + (releve.limite * releve.pu)  %}
+                                        {% set denominator = 5 %} 
+                                    {% set percentage1 = (numerator * denominator) / 100 %}
+                                    {% set percentage2 = (numerator * 1) / 100 %}
+                                    {% set percentage3 = (numerator * 2) / 100 %}
+                                    {% if releve.Consomation > 10 and releve.pus != null  %}
+                                    {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                    {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                    {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                    {% else %}
+                                    {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                    {% endif %}
+                                    {{ resultatfinale }}
+                                    {% endif %}
+                                    {% else %}
+                                      {% set nombre1 = releve.Consomation %}
+                                        {% set nombre2 = releve.pu %}
+                                        {% set numerator = nombre1 * nombre2 %}
+                                        {% set denominator = 5 %} 
+                                        {% set percentage1 = (numerator * denominator) / 100 %}
+                                        {% set percentage2 = (numerator * 1) / 100 %}
+                                        {% set percentage3 = (numerator * 2) / 100 %}
+                                        {% if nombre1 > 10 and releve.pus != null  %}
+                                        {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                        {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                        {% else %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                        {% endif %}
+                                        {{ resultatfinale }}
+                                    
+                        {% endif %}
+                        {% set montantTotal = montantTotal + resultatfinale %}
+                    </td>
+                                   
+                </tr>
+                  
+             {% endfor %}
+        
+
+
+            </tbody>
+             <tfoot>
+                <tr>
+                    <td colspan="7"></td>
+                    <td>Montant débit  :</td>
+                    <td>{{ montantTotal }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+     <div class="pagination">
+            {{ knp_pagination_render(releve,'', {'selectedYear': selectedYear, 'selectedMonth': selectedMonth}) }}
+
+    </div>
+ 
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}

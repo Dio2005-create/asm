@@ -1,0 +1,144 @@
+  {% extends 'include/base-admin.html.twig' %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Informations du Client</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Code : {{ contrat.client.code }}</li>
+                        <li class="list-group-item">Nom : {{ contrat.client.nom }}</li>
+                        <li class="list-group-item">Prénoms : {{ contrat.client.prenom }}</li>
+                        <li class="list-group-item">Adresse : {{ contrat.client.adresse }}</li>
+                        <li class="list-group-item">Quartier : {{ contrat.client.quartier.nom }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Liste des Relevés pour payments par tranche</h4>
+                     
+                    <div style="max-height: 400px; overflow-y: scroll;">
+                        
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    
+                                    <th>Date</th>
+                                    <th>Mois Relevé</th>
+                                    <th>Consommation</th>
+                                    <th>Montant</th>
+                                    
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for releve in releve %}
+                                    <tr>
+                                       
+                                        <td>{{ releve.dateReleve|date('d-m-Y') }}</td>
+                                        <td>
+                                            {% set variable1 = releve.mois %}
+                                            {% set variable2 = "/" %}
+                                            {% set variable3 = releve.annee %}
+                                            {% set resultat = variable1 ~ variable2 ~ variable3 %}
+                                            {{ resultat }}
+                                        </td>
+                                        <td>{{ releve.Consomation }}</td>
+                                       <td>
+                                           {% if releve.limite != null %}
+                                {% if releve.Consomation <= releve.limite %}
+                                        {% set nombre1 = releve.Consomation %}
+                                        {% set nombre2 = releve.pu %}
+                                        {% set numerator = nombre1 * nombre2 %}
+                                        {% set denominator = 5 %} 
+                                        {% set percentage1 = (numerator * denominator) / 100 %}
+                                        {% set percentage2 = (numerator * 1) / 100 %}
+                                        {% set percentage3 = (numerator * 2) / 100 %}
+                                        {% if nombre1 > 10 and releve.pus != null  %}
+                                        {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                        {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                        {% else %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                        {% endif %}
+                                        {{ resultatfinale }}
+                                    {% else %}
+                                    {% set numerator = ((releve.Consomation - releve.limite) * releve.pus) + (releve.limite * releve.pu)  %}
+                                        {% set denominator = 5 %} 
+                                    {% set percentage1 = (numerator * denominator) / 100 %}
+                                    {% set percentage2 = (numerator * 1) / 100 %}
+                                    {% set percentage3 = (numerator * 2) / 100 %}
+                                    {% if releve.Consomation > 10 and releve.pus != null  %}
+                                    {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                    {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                    {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                    {% else %}
+                                    {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                    {% endif %}
+                                    {{ resultatfinale }}
+                                    {% endif %}
+                                    {% else %}
+                                      {% set nombre1 = releve.Consomation %}
+                                        {% set nombre2 = releve.pu %}
+                                        {% set numerator = nombre1 * nombre2 %}
+                                        {% set denominator = 5 %} 
+                                        {% set percentage1 = (numerator * denominator) / 100 %}
+                                        {% set percentage2 = (numerator * 1) / 100 %}
+                                        {% set percentage3 = (numerator * 2) / 100 %}
+                                        {% if nombre1 > 10 and releve.pus != null  %}
+                                        {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                        {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                        {% else %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                        {% endif %}
+                                        {{ resultatfinale }}
+                                    
+                        {% endif %}
+                                        </td>
+                                       
+                                 </tr>
+                                {% endfor %}
+                            </tbody>
+                             <tfoot>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Total A Payer:</td>
+                                    <td>{{ contrat.totalAMount }}</td>
+                                </tr>
+                                {% if contrat.reste != null %}
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Reste A payer:</td>
+                                    <td>{{ contrat.reste }}</td>
+                                </tr>
+                                {% endif %}
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    
+   
+{% endblock %}

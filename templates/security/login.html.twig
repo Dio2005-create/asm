@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% block title %}LogIn{% endblock %}
+{% block body %}
+    <form method="post">
+        <div class="background-img"></div>
+        <div class="body-page">
+            <div class="container text-center body-content" style="margin-top:61px;">
+                <div>
+                    <a href="#">
+                    <img src="{{asset('assets/images/logo.png')}}" alt="logo" id="logo"  >
+                    </a>
+                </div>
+                <h3 class="main-title">Se connecter</h3>
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                <form role="form" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="input-id">
+                            Identifiant
+                        </label>
+                        <input id="input-id" type='text' name="username"  value="{{ last_username }}" class="form-control user">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-id">
+                            Mot de passe
+                        </label>
+                       <input id="password" type='password' name="password" class="form-control" style="display:inline-block;width:329px">
+                    <button type="button" onclick="myFunction()" class="btn btn-secondary"  style="position:absolute"><i class="far fa-eye"></i></button>
+                    </div>
+                    
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <button type="submit" class="btn btn-info button-login">
+                        Se connecter
+                    </button>
+                   
+                    
+                </form>
+            </div>
+        </div>
+
+    </form>
+    <!-- Footer -->
+    
+        <div class="container mention-legal mt-5">
+            Copyright © 2023 YkotDev
+        </div>
+   
+
+{% endblock %}
+{% block javascripts %}
+    <!-- DataTables -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('vendor/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+    
+    
+    
+    
+    <script>
+function myFunction() {
+        var x = document.getElementById("password");
+        
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+    </script>
+{% endblock %}

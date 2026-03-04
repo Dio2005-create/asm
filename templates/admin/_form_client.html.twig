@@ -1,0 +1,62 @@
+<style>
+.form-check-input {
+    position: relative !important;
+} 
+</style> 
+    <div class="modal-header text-center">
+      
+            <h4 class="modal-title white-text w-100 font-weight-bold py-2">
+                Client - Asmeau
+            </h4>
+      
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+    </div>
+    <!--Content-->
+    {{ form_start(form, {'attr': {'action': path('register_client') }}) }}
+    <!--Body-->
+    <div class="modal-body" style="width:100%; padding: 2rem">
+       <div class="md-form">
+            <label class="active" for="form1">Quartier</label>
+            {{ form_widget(form.quartier, {'attr': { 'class': 'form-control chosen-select' }}) }}
+
+        </div>
+        <div class="md-form">
+            <label class="active" for="form1">Nom </label>
+            {{ form_widget(form.nom, {'attr': { 'class': 'form-control' }}) }}
+        </div>
+        <div class="md-form">
+            <label class="active" for="form1">Prénoms </label>
+            {{ form_widget(form.prenom, {'attr': { 'class': 'form-control' }}) }}
+        </div>
+        <div class="md-form">
+            <label class="active" for="form1">Adresse </label>
+            {{ form_widget(form.adresse, {'attr': { 'class': 'form-control ' }}) }}
+        </div>
+		 <div class="md-form">
+			<label for="form1">Client spécifique (-50000)</label>
+			{{ form_widget(form.isSpecific, {'attr': { 'class': 'form-check-input' }}) }}
+		</div>
+		<div class="md-form">
+			<label class="active" for="form1">ASM Eau </label>
+			{{ form_widget(form.audit, {'attr': { 'class': 'form-check-input' }}) }}
+		</div>	
+        <input type="hidden" name="type" value="{{ type }}">
+
+    </div>
+    <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal" aria-label="Close"><i class="fas fa-remove ml-1"></i> {% trans %}Cancel{% endtrans %} </button>
+        <button type="submit" class="btn btn-outline-primary waves-effect "><i class="fas fa-save ml-1"></i> {% trans %}Save{% endtrans %} </button>
+    </div>
+
+    {{ form_end(form) }}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+           
+            $('.chosen-select').chosen({width: "100%"});
+
+            $('.chosen-select').trigger('chosen:updated');
+        })
+    </script>

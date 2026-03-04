@@ -1,0 +1,88 @@
+tr .th{
+    background: rgb(61,225,120);
+    color: white !important;
+    text-align: center;
+    padding: 30px;
+    font-size: 20px;
+}
+
+tr .th a{
+    padding: 20px;
+    color: aliceblue;
+}
+
+tr .logomatipla{
+
+    text-align: center;
+}
+
+tr .backgrou{
+    background: url(../../assets/images/medesin.png) no-repeat;
+    height: 800px;
+}
+tr .backgrou2{
+    height: 800px;
+}
+tr .backgrou3{
+    height: 800px;
+}
+
+tr .propo1{
+    height: 600px;
+    width: 200px;
+}
+tr .propo2{
+    height: 600px;
+    width: 200px;
+}
+tr .propo1 p{
+    background: rgb(212,243,255);
+    border: 2px solid black;
+    border-top-left-radius: 90px;
+    border-bottom-left-radius: 90px;
+    padding: 30px;
+    height: 600px;
+}
+tr .propo2 p{
+    background: rgb(177,241,149);
+    border: 2px solid black;
+    border-top-left-radius: 90px;
+    border-bottom-left-radius: 90px;
+    padding: 30px;
+    height: 600px;
+}
+
+tr .propo{
+    background: url(../../assets/images/Robot.JPG) no-repeat;
+    max-width: content-box;
+}
+tr .propo3{
+    background: url(../../assets/images/Robot.JPG) no-repeat;
+    max-width: content-box;
+}
+
+tr td a{
+    color: red;
+    text-decoration: none;
+    font-size: 25px;
+    margin-left: 25px;
+    font-weight: bold;
+}
+
+p.cadre{
+    background: rgb(61,225,120);
+    border: 2px solid rgb(67, 113, 195);
+    width: 20px;
+    width: 209px;
+    height: 179px;
+    line-height: 179px;
+    font-size: x-large;
+    color: red;
+    font-weight: bold;
+}
+
+#bann{
+    height: 140vh;
+    background: no-repeat center center / cover url(../../assets/images/women.png);
+
+}

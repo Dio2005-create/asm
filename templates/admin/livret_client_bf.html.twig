@@ -1,0 +1,82 @@
+  {% extends 'include/base-admin.html.twig' %}
+{%  block title %}
+    Livret client Bf
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+<form method="post" id="year-form">
+        <label for="year">Sélectionnez une année :</label>
+        <select id="year" name="year">
+            {% for year in years %}
+                <option value="{{ year.year }}" {% if year.year == selectedYear %}selected{% endif %}>{{ year.year }}</option>
+            {% endfor %}
+        </select>
+        <label for="month">Mois :</label>
+        <select name="month" id="month">
+            <option value="">Tous les mois</option>
+            {% for month in months %}
+                <option value="{{ loop.index }}" {% if loop.index == selectedMonth %}selected{% endif %}>{{ month }}</option>
+            {% endfor %}
+        </select>
+
+        
+   
+    </form>
+    <div class="col"  style="text-align:right">
+         <a href="{{ path('export_excel_bf', {'year': selectedYear, 'month': selectedMonth}) }}" class="btn btn-primary">Exporter au format Excel Livret Bf</a>
+         <a href="{{ path('export_bf_salaire', {'year': selectedYear, 'month': selectedMonth}) }}" class="btn btn-primary">Exporter au format Excel Salaire</a>
+    
+    </div>
+ <div class="row-table table-content mt-3">
+    <table class="table table-striped" id="example1">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Client</th>
+                {% for date in data.dates %}
+                    <th>{{ date }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+        {% set clientIndex = 0 %}
+            {% for client in data.clients %}
+                <tr>
+                <td>{{ client.code }}</td>
+                    <td>{{ client.nom }}</td>
+                    {% set consommationIndex = clientIndex %}
+                    {% for consommation in data.consommations[consommationIndex] %}
+                        <td>{{ consommation }}</td>
+                    {% endfor %}
+                </tr>
+                {% set clientIndex = clientIndex + 1 %}
+            {% endfor %}
+        </tbody>
+    </table>
+ </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function () {
+          
+             $('#example1').DataTable();
+
+        });
+         document.getElementById('month').addEventListener('change', function() {
+            // Soumettre le formulaire automatiquement lorsqu'une année est sélectionnée
+            document.getElementById('year-form').submit();
+        });
+     
+
+
+        
+
+    </script>
+{% endblock %}
+

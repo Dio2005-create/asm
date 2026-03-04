@@ -1,0 +1,118 @@
+{# templates/facture/facture.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Facture Tranche {{ contrat.client.code }}</title>
+    <style>
+        /* Centrer l'image horizontalement */
+        .center-horizontally {
+            text-align: center;
+        }
+        
+        /* Centrer l'image verticalement */
+        .center-vertically {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Ajustez la hauteur si nécessaire */
+        }
+         p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="center-vertically">
+        <div class="center-horizontally">
+            <img width=50 height=50 src="http://www.asm-eau.com/assets/images/factureimage.png">
+        </div>
+    </div>
+    <p style="text-align:center;font-size:20px">Entreprise ASM EAU </p>
+    <p style="text-align:center">TICKET DE TRANCHE</p>
+    <span>Date: {{ paye.date|date('d/m/Y H:i') }}</span><br><br>
+    <span>Caissier : {{ paye.caisse.fullName }}</span><br><br>
+    <span>Client : {{ contrat.client.code }}</span><br><br>
+    <b>Facture Contrat Par Tranche</b>
+    <hr>
+    {% for releve in releve %}
+        
+   {% set parts = releve.client.code|explode("/") %}
+    <span>Facture N°  {{ releve.id }}/{{ parts[2] }}</span><br>
+    <span>{{ releve.mois }}/{{ releve.annee }}</span>
+    <span style="float:right">
+    {% if releve.limite != null %}
+                                {% if releve.Consomation <= releve.limite %}
+                                    {% set nombre1 = releve.Consomation %}
+                                    {% set nombre2 = releve.pu %}
+                                    {% set numerator = nombre1 * nombre2 %}
+                                    {% set denominator = 5 %} 
+                                    {% set percentage1 = (numerator * denominator) / 100 %}
+                                    {% set percentage2 = (numerator * 1) / 100 %}
+                                    {% set percentage3 = (numerator * 2) / 100 %}
+                                    {% if nombre1 > 10 and releve.pus != null %}
+                                        {% set consomation2 = (releve.Consomation - 10) * releve.pus %}
+                                        {% set percentage4 = (consomation2 * 20) / 100 %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                    {% else %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+                                    {% endif %}
+                                    {{ resultatfinale }}
+                                {% else %}
+                                    {% set numerator = ((releve.Consomation - releve.limite) * releve.pus) + (releve.limite * releve.pu) %}
+                                    {% set denominator = 5 %} 
+                                    {% set percentage1 = (numerator * denominator) / 100 %}
+                                    {% set percentage2 = (numerator * 1) / 100 %}
+                                    {% set percentage3 = (numerator * 2) / 100 %}
+                                    {% if releve.Consomation > 10 and releve.pus != null %}
+                                        {% set consomation2 = (releve.Consomation - 10) * releve.pus %}
+                                        {% set percentage4 = (consomation2 * 20) / 100 %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                    {% else %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+                                    {% endif %}
+                                    {{ resultatfinale }}
+                                {% endif %}
+                            {% else %}
+                                {% set nombre1 = releve.Consomation %}
+                                {% set nombre2 = releve.pu %}
+                                {% set numerator = nombre1 * nombre2 %}
+                                {% set denominator = 5 %} 
+                                {% set percentage1 = (numerator * denominator) / 100 %}
+                                {% set percentage2 = (numerator * 1) / 100 %}
+                                {% set percentage3 = (numerator * 2) / 100 %}
+                                {% if nombre1 > 10 and releve.pus != null %}
+                                    {% set consomation2 = (releve.Consomation - 10) * releve.pus %}
+                                    {% set percentage4 = (consomation2 * 20) / 100 %}
+                                    {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                {% else %}
+                                    {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+                                {% endif %}
+                                {{ resultatfinale }}
+                            {% endif %}
+    </span>
+    <hr>
+      {% endfor %}
+    <span>A Payer</span>
+    <span style="float:right">{{contrat.totalAMount}}</span><br>
+    
+    <hr>
+   
+    <span>Remis </span>
+    <span style="float:right">{{ paye.argent }}</span><br>
+    <hr>
+    <span>Reste à payer </span>
+    <span style="float:right">
+    {% if contrat.reste == 0 or  contrat.reste < 0 %}
+        0
+    {% else %}
+    {{ contrat.reste }}
+    {% endif %}
+    
+    </span>
+
+
+    <!-- Autres détails de la facture -->
+</body>
+</html>

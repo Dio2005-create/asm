@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport">
+		<meta name="google-adsense-account" content="ca-pub-8187305316603987">
+        <link rel="icon"  type = "image/x-icon">
+        <title>ASM </title>
+        <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.css') }}" />
+        <link rel="stylesheet" href="{{ asset('assets/css/component.css') }}" />
+
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}" />
+        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
+        <link rel="stylesheet" href="{{ asset('assets/css/homepage.css') }}" />
+
+        <link href="{{ asset('vendor/fullcalendar/packages/core/main.css') }}" rel='stylesheet' />
+        <link href="{{ asset('vendor/fullcalendar/packages/daygrid/main.css') }}" rel='stylesheet' />
+        <link href="{{ asset('vendor/fullcalendar/packages/timegrid/main.css') }}" rel='stylesheet' />
+        <link href="{{ asset('vendor/fullcalendar/packages/list/main.css') }}" rel='stylesheet' />
+        <link rel="stylesheet" href="{{ asset('vendor/datatables-bs4/css/dataTables.bootstrap4.css') }}">
+        <link href="{{ asset('assets/css/clockpicker/clockpicker.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/datapicker/datepicker3.css') }}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{{  asset('vendor/sweetalert2/toastr.scss') }}" />
+        <link rel="stylesheet" type="text/css" href="{{  asset('vendor/sweetalert2/bootstrap-4.min.css') }}" />
+        <link href="{{ asset('assets/css/chosen/bootstrap-chosen.css') }}" rel="stylesheet">
+		
+        <style>
+            .loadBody{
+                display: none;
+            }
+            .loadBody .chargement{
+                background-color: #7dc6ff;
+                color: #000000;
+                width: 400px;
+                margin: 0 auto;
+                height: 30px;
+                border-radius: 5px;
+                font-weight: bold;
+                line-height: 30px;
+                text-align: center;
+                margin-top: 5px;
+                position: fixed;
+                z-index: 9999999;
+                left: 35%;
+                padding: 0;
+            }
+            .loadBody button.close{
+                margin-right: 5px;
+            }
+            .chargementError{
+                display: none;
+                z-index: 9999999;
+            }
+            .badge-style {
+                font-size: .8rem !important;
+                font-weight: 500 !important;
+                line-height: 2 !important;
+                width: 82px !important;
+                cursor: pointer;
+            }
+            table tbody tr td i {
+                padding-left: 0px !important;
+                cursor: pointer;
+            }
+            .chosen-container-multi .chosen-results {
+                text-align: left;
+            }
+            .pagination {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+        padding: 0;
+    }
+
+    .pagination li {
+        margin: 0 5px;
+    }
+
+    .pagination li a,
+    .pagination li span {
+        display: inline-block;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .pagination li.active span {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .pagination li.disabled span,
+    .pagination li.disabled a {
+        color: #aaa;
+        pointer-events: none;
+    }
+    /* Styles for right-aligned search form */
+.search-form {
+    display: flex;
+    justify-content: flex-end; /* Aligns items to the right */
+    align-items: center;
+}
+
+.search-form input[type="text"],
+.search-form button {
+    margin-left: 10px;
+}
+
+.search-form input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-form button {
+    padding: 8px 12px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Adjustments for responsiveness if needed */
+@media screen and (max-width: 600px) {
+    .search-form {
+        flex-direction: column;
+        justify-content: flex-start; /* Aligns items to the top for smaller screens */
+        align-items: flex-end;
+    }
+
+    .search-form input[type="text"],
+    .search-form button {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+        </style>
+        {% block stylesheets %}
+        {% endblock %}
+    </head>
+    <body>
+    
+
+<!-- Content -->
+
+        <div class="body-page">
+      
+            <div id="body-page-container">
+                <!--nav-->
+                {% block nav %}
+                    {{ include('include/nav_bar.html.twig') }}
+                {% endblock %}
+                <!--nav-->
+                <div class="col_exc_2">
+                    <!---header-->
+                    {% block header %}
+                        {{ include('include/header.html.twig') }}
+                    {% endblock %}
+
+
+                    {% for message in app.flashes('error') %}
+                        <input type="hidden" id="notice_error" value="{{ message }}" />
+                    {% endfor %}
+                    {% for message in app.flashes('success') %}
+                        <input type="hidden" id="notice_success" value="{{ message }}" />
+                    {% endfor %}
+                    {% for message in app.flashes('warning') %}
+                        <input type="hidden" id="notice_warning" value="{{ message }}" />
+                    {% endfor %}
+                    <!-- Container -->
+
+
+                    <!-- Container -->
+
+                    <div class="praticien" style="margin: 0px 25px">
+
+                        <div class="loadBody">
+                            <div class="chargement alert-dismissable alert alert-warning alert-dismissable">
+                                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                {% trans %}Veuillez attendre...!!!{% endtrans %}
+                            </div>
+                        </div>
+
+                        <div class="alert alert-danger alert-dismissable chargementError">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            {% trans %}En attente de serveur...{% endtrans %}
+                        </div>
+
+                        <div class="modal inmodal" id="modal_create_body" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-notify modal-primary">
+                                <div class="modal-content animated bounceInDown" style="width:864px!important">
+                                    <div class="create_body"></div>
+                                </div>
+                            </div>
+                        </div>
+                        {% block loader%}
+
+                            {{ include('include/loader.html.twig') }}
+
+                        {% endblock %}
+
+                        {% block body %}
+
+                        {% endblock %}
+                    </div>
+
+                    <!-- End Container  -->
+
+                </div>
+            </div>
+        </div>
+
+<!-- End Content -->
+        <script type="text/javascript" src="{{ asset('assets/js/jquery-3.1.1.min.js') }}"></script>
+        {# <script type="text/javascript" src="{{ asset('assets/js/popper.min.js') }}"></script> #}
+        <script type="text/javascript" src="{{ asset('assets/js/bootstrap.min.js') }}" async></script>
+        <script src="{{ asset('assets/js/canvasjs.min.js') }}"></script>
+        <script src="{{ asset('assets/js/chart.js') }}"></script>
+        <script src="{{ asset('vendor/fullcalendar/packages/core/main.js') }}"></script>
+        <script src="{{ asset('vendor/fullcalendar/packages/interaction/main.js') }}"></script>
+        <script src="{{ asset('vendor/fullcalendar/packages/core/locales-all.js') }}"></script>
+        <script src="{{ asset('vendor/fullcalendar/packages/daygrid/main.js') }}"></script>
+        <script src="{{ asset('vendor/fullcalendar/packages/timegrid/main.js') }}"></script>
+        <script src="{{ asset('vendor/fullcalendar/packages/list/main.js') }}"></script>
+        <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
+        <script src="{{ asset('vendor/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+        <!-- Data picker -->
+        <script src="{{ asset('assets/js/clockpicker/clockpicker.js') }}"></script>
+        <script src="{{ asset('assets/js/datapicker/bootstrap-datepicker.js') }}"></script>
+        <!-- Chosen -->
+        <script src="{{ asset('assets/js/chosen/chosen.jquery.js') }}"></script>
+
+        <!-- SweetAlert2/scramble -->
+        <script type="text/javascript" src="{{ asset('vendor/sweetalert2/toastr.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('vendor/sweetalert2/toast.js') }}"></script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8187305316603987"
+     crossorigin="anonymous"></script>
+
+        {% block javascripts %}
+        {% endblock %}
+    </body>
+</html>

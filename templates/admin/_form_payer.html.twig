@@ -1,0 +1,36 @@
+ 
+    <div class="modal-header text-center">
+      
+            <h4 class="modal-title white-text w-100 font-weight-bold py-2">
+               Paiement
+            </h4>
+      
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+    </div>
+    <!--Content-->
+   <form action="{{path('register_payments')}}" method="POST">
+    <!--Body-->
+    <div class="modal-body" style="width:100%; padding: 2rem">
+        <div class="modal-body">
+            <label >Date Paiement</label>
+            <input type="date" class="form-control" name="date" id="date">
+            <input type="hidden" name="id" value="{{ id }}">
+        </div>
+    </div>
+    <div class="modal-footer justify-content-center">
+        <button type="submit" class="btn btn-outline-primary waves-effect "><i class="fas fa-save ml-1"></i> {% trans %}Save{% endtrans %} </button>
+        <button type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal" aria-label="Close"><i class="fas fa-remove ml-1"></i> {% trans %}Cancel{% endtrans %} </button>
+    </div>
+
+    </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+           
+            $('.chosen-select').chosen({width: "100%"});
+
+            $('.chosen-select').trigger('chosen:updated');
+        })
+    </script>

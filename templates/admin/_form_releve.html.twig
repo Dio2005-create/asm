@@ -1,0 +1,161 @@
+    <div class="modal-header text-center">
+      
+            <h4 class="modal-title white-text w-100 font-weight-bold py-2">
+                Nouveau Relevé - Asmeau
+            </h4>
+      
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+    </div>
+    <!--Content-->
+    {{ form_start(form, {'attr': {'action': path('register_edit_releve') }}) }}
+    <!--Body-->
+    <div class="modal-body" style="width:100%; padding: 2rem">
+       
+            <label class="active" for="form1">Client</label>
+            {{ form_widget(form.client, {'attr': { 'class': 'form-control chosen-select' }}) }}
+        <hr>
+        <nav class="nav nav-tabs">
+            <a class="nav-item nav-link active" href="#p1" data-toggle="tab">Indexes</a>
+            <a class="nav-item nav-link" href="#p2" data-toggle="tab">Tranches</a>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane active" id="p1">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Relevé Précédent</th>
+                            <th>Nouveau Relevé</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Date</td>
+                            <td><input type="text" name="ancienReleve" id="ancienReleve" class="form-control" value={{dateAncien}} ></td>
+                            <td><input type="date" name="dateReleve" id="dateReleve" class="form-control" value="{{ dateReleve }}" ></td>
+                        </tr>
+                         <tr>
+                            <td>Mois Releve</td>
+                            <td><input type="text" name="mois" id="mois" class="form-control" value="{{ moisAncien }}" disabled></td>
+                            <td><input type="month" name="month" id="month" class="form-control" value="{{ month }}"></td>
+                        </tr>
+                         <tr>
+                            <td>Ancien Index</td>
+                            <td><input type="text" name="ancienIndex" id="ancienIndex" class="form-control" value="{{ indexAncien }}" disabled></td>
+                            <td><input type="text" name="anciensIndex" id="anciensIndex" class="form-control" value="{{ ancienIndex }}"></td>
+                        </tr>
+                         <tr>
+                            <td>Nouvel Index</td>
+                            <td><input type="text" name="nouvelIndex" id="nouvelIndex" class="form-control" value="{{ ancienIndex }}" disabled></td>
+                            <td><input type="number" name="nouvelleIndex" id="nouvelleIndex" class="form-control" min="0" placeholder="0" value="{{ nouvelIndex }}" ></td>
+                        </tr>
+                         <tr>
+                            <td>Consommation</td>
+                            <td><input type="text" name="consommation" id="consommation" class="form-control" value="{{ consomationAncien }}"disabled></td>
+                            <td><input type="text" name="consommations" id="consommations" class="form-control"  value="{{ consomation }}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+            <div class="tab-pane" id="p2">
+             <div class="md-form mt-3">
+                <label class="active" for="form1">Limite 1er Tranche </label>
+                <input type="number" name="limite" id="limite" min="0" value="{{ limite }}"> (Mettez zéro pour désactiver)
+             </div>
+              <div class="md-form mt-3">
+                <label class="active" for="form1">PU 1er Tranche</label>
+                <input type="number" name="pu" id="pu" min="0" value="{{ pu }}" style="width:130px">
+                <label class="active" for="form1">Qté 1er Tranche </label>
+                <input type="number" name="quantite1" id="quantite1" min="0" value="{{ quantite1 }}" placeholder="0" style="width:130px" disabled>
+                <label class="active" for="form1">Montant 1è Tranche </label>
+                <input type="number" name="montant1" id="montant1" value="{{ montant1 }}" min="0" placeholder="0" style="width:130px" disabled>
+             </div>
+             <div class="md-form mt-3">
+                <label class="active" for="form1">PU 2e Tranche</label>
+                <input type="number" name="pus" id="pus" min="0" value="{{ pus }}" style="width:130px;margin-left:5px;">
+                <label class="active" for="form1">Qté 2e Tranche </label>
+                <input type="number" name="quantite2" id="quantite2" value="{{ quantite2 }}" min="0" placeholder="0" style="width:130px;margin-left:6px" disabled>
+                <label class="active" for="form1">Montant 2è Tranche </label>
+                <input type="number" name="montant2" id="montant2" value="{{ montant2 }}" min="0" placeholder="0" style="width:130px" disabled>
+             </div>
+            
+            </div>
+        </div>
+        
+        
+      
+
+    </div>
+    <div class="modal-footer justify-content-center">
+        <button type="submit" class="btn btn-outline-primary waves-effect "><i class="fas fa-save ml-1"></i> {% trans %}Save{% endtrans %} </button>
+        <button type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal" aria-label="Close"><i class="fas fa-remove ml-1"></i> {% trans %}Cancel{% endtrans %} </button>
+    </div>
+
+    {{ form_end(form) }}
+
+    <script type="text/javascript">
+        
+        $('#releve_client').on('change', function() {
+            var selectedValue = $(this).val();
+            $.ajax({
+                url: '{{ path("releve_check") }}',
+                method: 'POST', 
+                data: { id: selectedValue },
+                success: function(response) {                   
+                     var ancienReleveInput = document.getElementById('ancienReleve');
+                     ancienReleveInput.value=response.date;
+                     var moisInput = document.getElementById('mois');
+                     moisInput.value=response.mois;
+                     var ancienIndexInput = document.getElementById('ancienIndex');
+                     ancienIndexInput.value=response.ancienIndex;
+                     var nouvelIndexInput = document.getElementById('nouvelIndex');
+                     nouvelIndexInput.value=response.nouvelIndex;
+                     var anciensIndexInput = document.getElementById('anciensIndex');
+                     anciensIndexInput.value=response.nouvelIndex;
+                     var consommationInput = document.getElementById('consommation');
+                     consommationInput.value=response.consommation
+                },
+                error: function(error) {
+                    // Gérer les erreurs ici
+                }
+            });
+        });
+         $('#nouvelleIndex').on('change', function() {
+            var nouvelleIndexInput = document.getElementById('nouvelleIndex').value;
+            var anciensIndexInput = document.getElementById('anciensIndex').value;
+            var reponse = nouvelleIndexInput - anciensIndexInput;
+            var consommationsInput = document.getElementById('consommations');
+            consommationsInput.value=reponse;
+            var limite = document.getElementById('limite').value;
+            var quantite1Input = document.getElementById('quantite1');
+            var quantite2Input = document.getElementById('quantite2');
+            var montant1Input = document.getElementById('montant1');
+            var montant2Input = document.getElementById('montant2');
+            var puInput = document.getElementById('pu').value;
+            var pusInput = document.getElementById('pus').value;
+            if(reponse > limite){
+                var quantite2 = reponse - limite;
+                quantite1Input.value = limite;
+                quantite2Input.value = quantite2;
+                montant1Input.value = limite * puInput;
+                montant2Input.value = quantite2 * pusInput;
+            }else{
+                quantite1Input.value = reponse;
+                montant1Input.value = reponse * puInput;
+            }
+        });
+
+        $(document).ready(function () {
+           
+            $('.chosen-select').chosen({width: "100%"});
+
+            $('.chosen-select').trigger('chosen:updated');
+        });
+       
+
+   
+
+    </script>

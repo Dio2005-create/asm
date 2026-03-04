@@ -1,0 +1,246 @@
+{% extends 'include/base-admin.html.twig' %}
+
+{% block title %}Liste des Dépenses{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <style>
+        .table-data-feature { justify-content: flex-end; }
+        .btn-sm { margin-left: 5px; }
+        .main-content { padding-top: 30px; }
+        .menu_ { z-index: 9999; position: absolute; background: white; border: 1px solid #ddd; padding: 10px; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="page-container">
+    <div class="main-content">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
+                
+                {# Messages Flash #}
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h2 class="title-1">Liste des Dépenses</h2>
+                        <hr>
+                    </div>
+                </div>
+
+                <div class="row m-t-20 align-items-center">
+                    <div class="col-md-12 d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="form-header">
+                            <input class="au-input au-input--xl" type="text" id="searchInput" placeholder="Rechercher par type..." />
+                        </div>
+
+                        <form method="post" class="form-inline">
+                            <div class="form-group">
+                                <label class="pr-2">Année : </label>
+                                <select name="year" class="form-control m-r-10" onchange="this.form.submit()">
+                                    {% for y in years %}
+                                        {% if y.year is not null %}
+                                            <option value="{{ y.year }}" {{ y.year == selectedYear ? 'selected' : '' }}>{{ y.year }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="pr-2">Mois : </label>
+                                <select name="month" class="form-control m-r-10" onchange="this.form.submit()">
+                                    <option value="">Tous les mois</option>
+                                    {% for num, name in months %}
+                                        <option value="{{ num }}" {{ num == selectedMonth ? 'selected' : '' }}>{{ name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row m-t-25">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-success shadow-sm" data-toggle="modal" data-target="#addDepenseModal" id="btnAddNew">
+                            <i class="zmdi zmdi-plus"></i> Nouvelle Dépense
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive table-responsive-data2 m-t-20">
+                    <table class="table table-data2" id="depenseTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Montant</th>
+                                <th class="text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="depenseBody">
+                            {% for depense in depenses %}
+                                <tr class="tr-shadow">
+                                    <td><span class="block-email">{{ depense.id }}</span></td>
+                                    <td>{{ depense.createdAt|date('d/m/Y') }}</td>
+                                    <td>
+                                        {% if depense.type == 'salaire' %}
+                                            <span class="badge badge-warning">Salaire</span>
+                                        {% elseif depense.type == 'credit' %}
+                                            <span class="badge badge-primary">Crédit</span>
+                                        {% else %}
+                                            <span class="badge badge-info">{{ depense.type|capitalize }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-danger font-weight-bold">
+                                        {{ depense.montant|number_format(0, '.', ' ') }} Ar
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" 
+                                                    class="btn btn-primary btn-sm m-r-10 edit-btn" 
+                                                    data-toggle="modal" 
+                                                    data-target="#addDepenseModal"
+                                                    data-id="{{ depense.id }}"
+                                                    data-montant="{{ depense.montant }}"
+                                                    data-type="{{ depense.type }}"
+                                                    data-date="{{ depense.createdAt|date('Y-m-d') }}">
+                                                <i class="zmdi zmdi-edit"></i> Modifier
+                                            </button>
+                                            
+                                            <form method="post" action="{{ path('depense_delete', {'id': depense.id}) }}" onsubmit="return confirm('Supprimer cette dépense ?');">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ depense.id) }}">
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="zmdi zmdi-delete"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="spacer"></tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center">Aucune dépense enregistrée.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr style="font-weight: bold; font-size: 1.2em; border-top: 2px solid #333;">
+                                <td colspan="3" class="text-right">TOTAL :</td>
+                                <td class="text-dark">{{ total|number_format(0, '.', ' ') }} Ar</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Modal Unique #}
+<div class="modal fade" id="addDepenseModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <form method="post" id="depenseForm" action="{{ path('depenses_control') }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Enregistrer une dépense</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {# NOUVEAU CHAMP DATE #}
+                    <div class="form-group">
+                        <label>Date de la dépense</label>
+                        <input type="date" name="date_depense" id="modal-date" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Montant (Ar)</label>
+                        <input type="number" name="montant" id="modal-montant" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Type de dépense</label>
+                        <select name="type" id="modal-type" class="form-control" required>
+                            <option value="credit">Crédit</option>
+                            <option value="depannage">Dépannage</option>
+                            <option value="salaire">Salaire</option>
+                            <option value="autre">Autre</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-success" id="submitBtn">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            // --- GESTION DU MENU LOGOUT ---
+            $('.menu_').hide();
+            $(document).on('click', '.clickTr', function(e) {
+                e.preventDefault();
+                $('.menu_').toggle();
+            });
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.profileTrigger').length) {
+                    $('.menu_').hide();
+                }
+            });
+
+            // --- GESTION DES DEPENSES ---
+            
+            // Mode Edition
+            $('.edit-btn').on('click', function() {
+                const id = $(this).data('id');
+                const montant = $(this).data('montant');
+                const type = $(this).data('type');
+                const date = $(this).data('date');
+
+                $('#modalTitle').text('Modifier la dépense #' + id);
+                $('#submitBtn').text('Mettre à jour').removeClass('btn-success').addClass('btn-primary');
+                
+                $('#modal-montant').val(montant);
+                $('#modal-type').val(type);
+                $('#modal-date').val(date); // Injecte la date de la ligne
+                
+                $('#depenseForm').attr('action', '/control/depense/edit/' + id); 
+            });
+
+            // Mode Ajout
+            $('#btnAddNew').on('click', function() {
+                $('#modalTitle').text('Enregistrer une dépense');
+                $('#submitBtn').text('Enregistrer').removeClass('btn-primary').addClass('btn-success');
+                $('#depenseForm').attr('action', '{{ path("depenses_control") }}'); 
+                $('#depenseForm')[0].reset();
+                
+                // Par défaut, mettre la date du jour
+                const today = new Date().toISOString().split('T')[0];
+                $('#modal-date').val(today);
+            });
+
+            // Recherche dynamique
+            $("#searchInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#depenseBody tr.tr-shadow").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+{% endblock %}

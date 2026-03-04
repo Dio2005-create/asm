@@ -1,0 +1,277 @@
+  {% extends 'include/base-admin.html.twig' %}
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+  <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Informations du Client</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Code : {{ client.code }}</li>
+                        <li class="list-group-item">Nom : {{ client.nom }}</li>
+                        <li class="list-group-item">Prénoms : {{ client.prenom }}</li>
+                        <li class="list-group-item">Adresse : {{ client.adresse }}</li>
+                        <li class="list-group-item">Quartier : {{ client.quartier.nom }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Liste des Relevés</h4>
+                    
+                      <button type="button" class="btn btn-success payer-button" style="display: none;">
+                            Paiement par tranche
+                        </button>
+                     <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form action="{{ path('payment_tranche') }}" id="payer" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentModalLabel">Paiement Facture</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <b>Etes vous sûre de créer une paiement par tranche</b>
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-primary waves-effect" id="payerFormSubmitButton"><i class="fas fa-save ml-1"></i> Sauvegarder</button>
+                        <button type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal" aria-label="Close"><i class="fas fa-remove ml-1"></i> Annuler</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+                    <div class="row-table table-content mt-3">
+                        
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Date</th>
+                                    <th>Mois Relevé</th>
+                                    <th>Consommation</th>
+                                    <th>Montant</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for releve in releves %}
+                                    <tr>
+                                       <td>
+                                            {% if releve.factureDatePaiement == null %}
+                                                <input type="checkbox" class="checkbox-paye" data-releve-id="{{ releve.id }}">
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ releve.dateReleve|date('d-m-Y') }}</td>
+                                        <td>
+                                            {% set variable1 = releve.mois %}
+                                            {% set variable2 = "/" %}
+                                            {% set variable3 = releve.annee %}
+                                            {% set resultat = variable1 ~ variable2 ~ variable3 %}
+                                            {{ resultat }}
+                                        </td>
+                                        <td>{{ releve.Consomation }}</td>
+                                       <td>
+                                           {% if releve.limite != null %}
+                                {% if releve.Consomation <= releve.limite %}
+                                        {% set nombre1 = releve.Consomation %}
+                                        {% set nombre2 = releve.pu %}
+                                        {% set numerator = nombre1 * nombre2 %}
+                                        {% set denominator = 5 %} 
+                                        {% set percentage1 = (numerator * denominator) / 100 %}
+                                        {% set percentage2 = (numerator * 1) / 100 %}
+                                        {% set percentage3 = (numerator * 2) / 100 %}
+                                        {% if nombre1 > 10 and releve.pus != null  %}
+                                        {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                        {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                        {% else %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                        {% endif %}
+                                        {{ resultatfinale }}
+                                    {% else %}
+                                    {% set numerator = ((releve.Consomation - releve.limite) * releve.pus) + (releve.limite * releve.pu)  %}
+                                        {% set denominator = 5 %} 
+                                    {% set percentage1 = (numerator * denominator) / 100 %}
+                                    {% set percentage2 = (numerator * 1) / 100 %}
+                                    {% set percentage3 = (numerator * 2) / 100 %}
+                                    {% if releve.Consomation > 10 and releve.pus != null  %}
+                                    {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                    {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                    {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                    {% else %}
+                                    {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                    {% endif %}
+                                    {{ resultatfinale }}
+                                    {% endif %}
+                                    {% else %}
+                                      {% set nombre1 = releve.Consomation %}
+                                        {% set nombre2 = releve.pu %}
+                                        {% set numerator = nombre1 * nombre2 %}
+                                        {% set denominator = 5 %} 
+                                        {% set percentage1 = (numerator * denominator) / 100 %}
+                                        {% set percentage2 = (numerator * 1) / 100 %}
+                                        {% set percentage3 = (numerator * 2) / 100 %}
+                                        {% if nombre1 > 10 and releve.pus != null  %}
+                                        {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                        {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                        {% else %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                        {% endif %}
+                                        {{ resultatfinale }}
+                                    
+                        {% endif %}
+                                        </td>
+                                        <td>
+                                        {% if releve.factureDatePaiement == null and releve.payer == null %}
+                                            <span class="badge badge-danger badge-style debloque"> Non Payé</span>
+                                        {% elseif releve.factureDatePaiement != null or releve.payer == true  %}
+                                            <span class="badge badge-success badge-style modif-status" >Payé</span>
+                                        {% endif %}
+                                        </td>
+                                        <td>
+                                         {% if releve.factureDatePaiement != null %}
+                                          <span class="btn btn-danger impayer" data-id="{{ releve.id }}" data-identification="ancien">Annuler Paiement</span>
+                                        {% elseif releve.factureDatePaiement == null and releve.contract == null %}
+                                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                                            Paiement par tranche
+                                        </button>
+
+                                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <form action="{{ path('payment_tranche') }}" id="payer" method="post"  >
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Paiement Tranche</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                               
+                                                    <div class="modal-body">
+                                                        <b>Etes vous sûre de créer une paiement par tranche</b>
+                                                        <input type="hidden" name="id" value="{{ releve.id }}">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-outline-primary waves-effect " id="payerFormSubmitButtons"><i class="fas fa-save ml-1"></i> Oui </button>
+                                                        <button type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal" aria-label="Close"><i class="fas fa-remove ml-1"></i> Non </button>
+                                                    </div>
+                                                
+                                                </div>
+                                              </form>
+                                            </div>
+                                        </div>
+                                            
+                                         {% endif %}
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                      <div class="pagination">
+                    {{ knp_pagination_render(releves) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $('.impayer').on('click', function (e) {
+            e.preventDefault();
+            var $delete = confirm("Êtes-vous sûr de faire l'annulation de paiement?");
+            if($delete){
+                $(".loadBody").css("display", "block");
+                var id = $(this).data('id');
+                $.ajax({
+                    url: "{{ path('annuler_payment') }}",
+                    type: 'post',
+                    data: {
+                        id: id,
+                    },
+                    dataType: "json",
+                    success: (data) =>{
+                        
+                    location.reload()
+                        
+               
+                        $(".loadBody").css("display", "none");
+                        location.reload();
+                    },
+                    error: (e) => {
+                        $(".loadBody").css("display", "none");
+                        $(".chargementError").css("display", "block");
+                    }
+                }).done(() => {
+                    $(".loadBody").css("display", "none");
+                });
+            }else {
+                return false
+            }
+        });
+    </script>
+     <script>
+    var releves = [];
+    document.addEventListener("DOMContentLoaded", function () {
+        const payerButton = document.querySelector(".payer-button");
+        const checkboxes = document.querySelectorAll(".checkbox-paye");
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener("change", function () {
+                const checkedCheckboxes = document.querySelectorAll(".checkbox-paye:checked");
+                releves = Array.from(checkedCheckboxes).map(function (checkbox) {
+                        return checkbox.getAttribute("data-releve-id");
+                    });
+
+                checkboxesChecked = releves.length > 0;
+                if (checkedCheckboxes.length > 0) {
+                    payerButton.style.display = "block";
+                } else {
+                    payerButton.style.display = "none";
+                }
+            });
+        });
+        $('.payer-button').click(function() {
+           
+
+            if (checkboxesChecked) {
+                 releves.forEach(function(releveId) {
+                    $('<input />').attr('type', 'hidden')
+                                 .attr('name', 'releves[]')
+                                 .attr('value', releveId)
+                                 .appendTo('#paymentModal form');
+                });
+
+                $('#paymentModal').modal('show');
+            }
+        });
+    });
+   
+        
+   </script>
+   
+{% endblock %}

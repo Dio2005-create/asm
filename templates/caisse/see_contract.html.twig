@@ -1,0 +1,193 @@
+  {% extends 'include/base-admin.html.twig' %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Informations du Client</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Code : {{ contrat.client.code }}</li>
+                        <li class="list-group-item">Nom : {{ contrat.client.nom }}</li>
+                        <li class="list-group-item">Prénoms : {{ contrat.client.prenom }}</li>
+                        <li class="list-group-item">Adresse : {{ contrat.client.adresse }}</li>
+                        <li class="list-group-item">Quartier : {{ contrat.client.quartier.nom }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Liste des Relevés pour payments par tranche</h4>
+                    <div class="text-right">
+                     <button type="button" class="btn btn-success mb-2"  data-toggle="modal" data-target="#exampleModal">
+                                            Payer
+                                        </button>
+                    </div>
+
+                                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <form action="{{ path('payer_tranche') }}" id="payer" method="post" target="_blank" >
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Paiement Tranche</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                               
+                                                    <div class="modal-body">
+                                                        <label>Argent Payer</label>
+                                                        <input type="text" class="form-control" name="argent" id="argent">
+														 <label>Date Payement</label>
+                                                        <input type="date" class="form-control" name="date" id="date" required>
+														
+                                                        <input type="hidden" name="id" value="{{ contrat.id }}">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-outline-primary waves-effect " id="payerFormSubmitButtons"><i class="fas fa-save ml-1"></i> {% trans %}Save{% endtrans %} </button>
+                                                        <button type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal" aria-label="Close"><i class="fas fa-remove ml-1"></i> {% trans %}Cancel{% endtrans %} </button>
+                                                    </div>
+                                                
+                                                </div>
+                                              </form>
+                                            </div>
+                                        </div>
+                                        
+
+                                        
+                    
+                    <div style="max-height: 400px; overflow-y: scroll;">
+                        
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    
+                                    <th>Date</th>
+                                    <th>Mois Relevé</th>
+                                    <th>Consommation</th>
+                                    <th>Montant</th>
+                                    
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for releve in releve %}
+                                    <tr>
+                                       
+                                        <td>{{ releve.dateReleve|date('d-m-Y') }}</td>
+                                        <td>
+                                            {% set variable1 = releve.mois %}
+                                            {% set variable2 = "/" %}
+                                            {% set variable3 = releve.annee %}
+                                            {% set resultat = variable1 ~ variable2 ~ variable3 %}
+                                            {{ resultat }}
+                                        </td>
+                                        <td>{{ releve.Consomation }}</td>
+                                       <td>
+                                           {% if releve.limite != null %}
+                                {% if releve.Consomation <= releve.limite %}
+                                        {% set nombre1 = releve.Consomation %}
+                                        {% set nombre2 = releve.pu %}
+                                        {% set numerator = nombre1 * nombre2 %}
+                                        {% set denominator = 5 %} 
+                                        {% set percentage1 = (numerator * denominator) / 100 %}
+                                        {% set percentage2 = (numerator * 1) / 100 %}
+                                        {% set percentage3 = (numerator * 2) / 100 %}
+                                        {% if nombre1 > 10 and releve.pus != null  %}
+                                        {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                        {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                        {% else %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                        {% endif %}
+                                        {{ resultatfinale }}
+                                    {% else %}
+                                    {% set numerator = ((releve.Consomation - releve.limite) * releve.pus) + (releve.limite * releve.pu)  %}
+                                        {% set denominator = 5 %} 
+                                    {% set percentage1 = (numerator * denominator) / 100 %}
+                                    {% set percentage2 = (numerator * 1) / 100 %}
+                                    {% set percentage3 = (numerator * 2) / 100 %}
+                                    {% if releve.Consomation > 10 and releve.pus != null  %}
+                                    {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                    {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                    {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                    {% else %}
+                                    {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                    {% endif %}
+                                    {{ resultatfinale }}
+                                    {% endif %}
+                                    {% else %}
+                                      {% set nombre1 = releve.Consomation %}
+                                        {% set nombre2 = releve.pu %}
+                                        {% set numerator = nombre1 * nombre2 %}
+                                        {% set denominator = 5 %} 
+                                        {% set percentage1 = (numerator * denominator) / 100 %}
+                                        {% set percentage2 = (numerator * 1) / 100 %}
+                                        {% set percentage3 = (numerator * 2) / 100 %}
+                                        {% if nombre1 > 10 and releve.pus != null  %}
+                                        {% set consomation2 = (releve.Consomation - 10) * releve.pus  %}
+                                        {% set percentage4 = (consomation2 * 20) / 100 %}
+
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 + percentage4 %}
+                                        {% else %}
+                                        {% set resultatfinale = numerator + 1000 + percentage1 + percentage2 + percentage3 + percentage3 %}
+
+                                        {% endif %}
+                                        {{ resultatfinale }}
+                                    
+                        {% endif %}
+                                        </td>
+                                       
+                                 </tr>
+                                {% endfor %}
+                            </tbody>
+                             <tfoot>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Total A Payer:</td>
+                                    <td>{{ contrat.totalAMount }}</td>
+                                </tr>
+                                {% if contrat.reste != null %}
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Reste A payer:</td>
+                                    <td>
+                                    {% if contrat.reste < 0 %}
+                                        0
+                                    {% else %}
+                                    {{ contrat.reste }}
+                                    {% endif %}
+                                    
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+      document.getElementById('payerFormSubmitButtons').addEventListener('click', function() {
+       
+        window.location.reload();
+    });
+    </script>
+   
+{% endblock %}

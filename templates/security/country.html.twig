@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <form method="post" action="{{ path('check_pays') }}">
+        <div class="background-img"></div>
+        <div class="body-page"  style="margin: 5rem">
+            <div class="container text-center body-content">
+                <div>
+                    <a href="{{ path('homepage') }}">
+                    <img class="logo-login" src="{{asset('assets/images/logo_suivi.png')}}" alt="logo" id="logo" style="width: 60%;">
+                    </a>
+                </div>
+                <h3 class="main-title">Selectionnez le pays</h3>
+              
+              
+                    
+                    <div class="form-group">
+                        <label for="input-id">
+                            Pays
+                        </label>
+                        <select id="input-id" name="pays" class="form-control chosen-select">
+                            <option value="">Pays</option>
+                            <option value="cameroun">Cameroun</option> 
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-info button-login">
+                        Se connecter
+                    </button>
+              
+            </div>
+        </div>
+
+    </form>
+    <!-- Footer -->
+    
+        <div class="container mention-legal mt-5">
+            Copyright © 2021 MATIPLA
+        </div>
+   
+
+{% endblock %}
+{% block javascripts %}
+<script>
+  $(document).ready(function () {
+ $('.chosen-select').chosen({width: "100%"});
+ $('.chosen-select').trigger('chosen:updated'); });
+</script>
+    
+    
+{% endblock %}
+
+
+
+
+

@@ -1,0 +1,35 @@
+{% extends 'include/base-admin.html.twig' %}
+{% block title %}
+    Journal de caisse
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="modal-header text-center">
+        <h5 class="modal-title white-text w-100 font-weight-bold py-2">Historique des payment d'aujourd'hui</h5>
+    </div>
+
+    <div class="row-table table-content mt-3">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Mois</th>
+                    <th>Nombre</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+              {% for mois, nombreReleves in nombreRelevesParMois %}
+                <tr>
+                    <td>{{ mois }}</td>
+                    <td>{{ nombreReleves }}</td>
+                </tr>
+            {% endfor %}
+               
+            </tbody>
+            
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,149 @@
+h1 {
+    font-family: "roboto-medium";
+    letter-spacing: 4px;
+}
+
+.paragraph {
+    font-family: "roboto-regular";
+    letter-spacing: 0.5px;
+    font-size: 17px;
+    width: 53%;
+    margin: 0 auto;
+    margin-top: 26px;
+    margin-bottom: 45px;
+}
+
+.navbar-one {
+    background: #ffffff;
+}
+
+.bg-home-h1 {
+    z-index: -1;
+    top: 0;
+    position: fixed;
+    width: 100%;
+    background: url(../images/accueil.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    background-position: top left;
+
+}
+
+.bg-home-h1:after {
+    content: "";
+    width: 100%;
+    position: absolute;
+    top: 0;
+    opacity: 1;
+    height: 100%;
+
+}
+
+.btn-login {
+    font-size: .9rem;
+    color: white;
+    background: transparent;
+    width: 220px;
+    padding: 10px;
+    border: 2px solid white;
+    line-height: 1rem;
+    height: 43px;
+}
+
+.btn-register {
+    font-size: .9rem;
+    font-family: "roboto-medium";
+    border: 0;
+    color: #ffffff;
+    background: rgb(6, 186, 113);
+    width: 220px;
+    padding: 10px;
+}
+
+.btn-login:hover {
+    background:rgb(6, 186, 113) !important;
+}
+.btn-register:hover {
+    color: #ec232a;
+    background: #ffffff;
+}
+
+.bg-content-h1 {
+    width: 100%;
+    z-index: 9;
+    position: absolute;
+    color: white;
+    text-align: center;
+    margin-top: 17%;
+    text-transform: uppercase;
+}
+.bg-content-h1 h1{
+    font-size: 1.6rem;
+    margin-top: 2rem;
+    margin-bottom: 3.5rem;
+    font-weight: 600;
+    color:rgb(124 124 124);
+}
+
+.bg-content-h1 h3 {
+    font-size: 17px;
+    width: 53%;
+    margin: 0 auto;
+    margin-top: 26px;
+    margin-bottom: 45px;
+}
+
+.logo-div {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: -8rem;
+}
+
+.logo-div img {
+
+    width: 16rem;
+}
+
+@media (max-width: 700px){
+    .logo-div{
+        top:0;
+    }
+    .su{
+        margin-top: 157px !important;
+    }
+    .bg-content-h1{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding: 2px 0;
+    }
+    .bg-content-h1 h1{
+        letter-spacing: 5px;
+        margin-top:9rem;
+    }
+    .bg-btn a{
+        margin-bottom: 2rem;
+    }
+    .btn-register, .btn-login{
+        font-size: .9rem;
+    }
+}
+
+.btn-login{
+    color: rgb(6, 186, 113);
+    font-weight: 700;
+    padding-top: 12px;
+}
+
+@media (max-width: 464px) {
+    .logo-div img {
+        margin-top: -68px;
+    }
+    .su{
+        margin-top: 71px !important;
+    }
+
+}
+

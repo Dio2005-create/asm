@@ -1,0 +1,31 @@
+<div class="menu_up">
+    <ul class="menu_right">
+        <li class="position-relative profileTrigger">
+            {# Ajout du ROLE_CONTROLLEUR dans la vérification des droits #}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CAISSE') or is_granted('ROLE_PRINCIPALE') or is_granted('ROLE_AUDIT') or is_granted('ROLE_CONTROLLEUR') %}
+                <a class="clickTr">
+                    {% set img = 'assets/images/praticien.jpg' %}
+                    <img class="rounded-circle" style="background-color: #077DF2; position: absolute; height: 30px; margin-left: -20px; margin-top: 3px; width: 30px; cursor: pointer;" src="/{{ img }}" >
+                </a>
+                <div style="margin-top: 11px; width: 130px" class="menu_">
+                    <a style="font-size: 14px;" href="{{ path('app_logout')}}">{% trans %}Logout{% endtrans %}</a>
+                </div>
+            {% endif %}
+        </li>
+    </ul>
+</div>
+
+{% block javascripts %}
+    <script src="{{ asset('assets/js/jquery-3.1.1.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/js/bootstrap.min.js') }}" type="text/javascript"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.menu_').css('display', 'none');
+            $(".clickTr").on('click', function(e) {
+                e.preventDefault(); // Empêche le comportement par défaut du lien
+                $('.menu_').toggle();
+            });
+        });
+    </script>
+{% endblock %}

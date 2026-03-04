@@ -1,0 +1,510 @@
+.card::after {
+    clear: both;
+    display: block;
+    content: "";
+}
+
+.card .circular-container {
+    background-color: #0067FF;
+}
+
+.checkbox-label {
+    display: inline;
+    position: relative;
+    margin: auto;
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 24px;
+    height: 24px;
+    width: 24px;
+    clear: both;
+}
+
+.checkbox-label input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkbox-label .checkbox-custom {
+    position: absolute;
+    top: 4px;
+    left: -81px;
+    height: 18px;
+    width: 18px;
+    background-color: transparent;
+    border-radius: 5px;
+    transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    border: 2px solid #cecfd0a3;
+}
+
+.checkbox-label input:checked~.checkbox-custom {
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    -webkit-transform: rotate(0deg) scale(1);
+    -ms-transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+    border: 2px solid #cecfd0a3;
+}
+
+.checkbox-label .checkbox-custom::after {
+    position: absolute;
+    content: "";
+    left: 12px;
+    top: 12px;
+    height: 0px;
+    width: 0px;
+    border-radius: 5px;
+    border: solid #009BFF;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(0deg) scale(0);
+    -ms-transform: rotate(0deg) scale(0);
+    transform: rotate(0deg) scale(0);
+    opacity: 1;
+    transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+}
+
+.checkbox-label input:checked~.checkbox-custom::after {
+    -webkit-transform: rotate(45deg) scale(1);
+    -ms-transform: rotate(45deg) scale(1);
+    transform: rotate(45deg) scale(1);
+    opacity: 1;
+    left: 4px;
+    top: 0px;
+    width: 6px;
+    height: 12px;
+    border: solid #009BFF;
+    border-width: 0 2px 2px 0;
+    background-color: transparent;
+    border-radius: 0;
+}
+
+
+/* For Ripple Effect */
+
+.checkbox-label .checkbox-custom::before {
+    position: absolute;
+    content: "";
+    left: 10px;
+    top: 10px;
+    width: 0px;
+    height: 0px;
+    border-radius: 5px;
+    border: 2px solid #FFFFFF;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+}
+
+.checkbox-label input:checked~.checkbox-custom::before {
+    left: -3px;
+    top: -3px;
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    -webkit-transform: scale(3);
+    -ms-transform: scale(3);
+    transform: scale(3);
+    opacity: 0;
+    z-index: 999;
+    transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+}
+
+.checkbox-label .checkbox-custom.circular {
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+}
+
+.checkbox-label input:checked~.checkbox-custom.circular {
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+}
+
+.checkbox-label input:checked~.checkbox-custom.circular::after {
+    border: solid #0067FF;
+    border-width: 0 2px 2px 0;
+}
+
+.checkbox-label .checkbox-custom.circular::after {
+    border-radius: 50%;
+}
+
+.checkbox-label .checkbox-custom.circular::before {
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+}
+
+.checkbox-label input:checked~.checkbox-custom.circular::before {
+    border-radius: 50%;
+}
+
+
+/* Table */
+
+.row.head-table {
+    margin: 20px 0 20px 0;
+}
+
+.row.head-table .grid-title-table {
+    padding-left: 0;
+}
+
+table thead tr th {
+    background: white;
+    font-size: 13px;
+    font-family: "roboto-bold";
+}
+
+table tbody tr td {
+    font-size: 13px;
+    font-family: "roboto-regular";
+}
+
+table tbody tr td i {
+    padding-left: 7px;
+    cursor: pointer;
+}
+
+.row-table {
+    width: 98%;
+    margin: 0 auto;
+}
+
+.row-table table.table-striped {
+    box-shadow: 0px 1px 2px 1px #d8d8d8;
+}
+
+.row-table tbody {
+    font-size: 14px;
+}
+
+
+/* End Table */
+
+
+/* Navigation */
+
+.navigation nav {
+    width: 20%;
+    margin: 0 auto;
+}
+
+.navigation li#prev {
+    margin: 0 5px 0 5px;
+    font-size: 10px;
+    padding-top: 4px;
+}
+
+.navigation li#next {
+    margin: 0 5px 0 5px;
+    font-size: 10px;
+    padding-top: 4px;
+}
+
+.navigation li.page-item {
+    margin: 0 3px 0 3px;
+}
+
+
+/* End navigation */
+
+.h4-content {
+    font-family: "marvel-bold";
+    font-weight: initial;
+    font-size: 18px;
+    color: #6c757d;
+    letter-spacing: 1px;
+}
+
+.grid-edit-btn {
+    padding: 0;
+    text-align: right;
+}
+
+.grid-edit-btn .btn {
+    font-size: 13px;
+    cursor: pointer;
+    background: #0789e2;
+    border: 2px solid #0788e3;
+    padding: 7px;
+    color:#fff;
+}
+
+.select1 {
+    padding: 3px;
+    height: 30px !important;
+    position: relative;
+    top: -6px;
+}
+
+.table-input-up label {
+    font-family: "roboto-bold";
+    font-weight: initial;
+    font-size: 13px;
+    color: #101010;
+    letter-spacing: 1px;
+    width: 72px;
+}
+
+.table-input-up .form-control {
+    width: auto;
+}
+
+select {
+    font-family: "roboto-medium";
+    font-weight: initial;
+    font-size: 13px !important;
+    color: rgba(108, 117, 125, 0.58) !important;
+    letter-spacing: 1px;
+}
+.see_vaccin{
+    color: #fff;
+    background-color: #0789e2 !important;
+    border-color: #007bff;
+    padding: 3px 7px;
+    font-size: 14px;
+    border-radius: .25rem;
+
+}
+
+.data-edit {
+     color: #fff;
+     background-color: #0789e2 !important;
+     border-color: #007bff;
+     padding: 3px 7px;
+     font-size: 14px;
+     border-radius: .25rem;
+ }
+
+.data-remove {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    padding: 3px 7px;
+    font-size: 14px;
+    border-radius: .25rem;
+}
+.data-edi {
+    color: #fff;
+    background-color: #0789e2 !important;
+    border-color: #007bff;
+    padding: 3px 7px;
+    font-size: 14px;
+    border-radius: .25rem;
+}
+
+.data-remov {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    padding: 3px 7px;
+    font-size: 14px;
+    border-radius: .25rem;
+}
+.see_group{
+    color: #fff;
+    background-color: rgba(108, 117, 125, 0.58) !important;
+    border-color: rgba(108, 117, 125, 0.58) ;
+    padding: 3px 7px;
+    font-size: 14px;
+    border-radius: .25rem;
+
+}
+
+
+
+@media (max-width: 1380px) {
+    .see_vaccin{
+        color: #fff;
+        background-color: #0789e2 !important;
+        border-color: #007bff;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+
+    }
+
+    .data-edit {
+        color: #fff;
+        background-color: #0789e2 !important;
+        border-color: #007bff;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+    }
+
+    .data-remove {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+    }
+    .data-edi {
+        color: #fff;
+        background-color: #0789e2 !important;
+        border-color: #007bff;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+    }
+
+    .data-remov {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+    }
+    .see_group{
+        color: #fff;
+        background-color: rgba(108, 117, 125, 0.58) !important;
+        border-color: rgba(108, 117, 125, 0.58) ;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+
+    }
+}
+
+@media (max-width: 1438px) {
+    .see_vaccin{
+        color: #fff;
+        background-color: #0789e2 !important;
+        border-color: #007bff;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+
+    }
+
+    .data-edit {
+        color: #fff;
+        background-color: #0789e2 !important;
+        border-color: #007bff;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+    }
+
+    .data-remove {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+    }
+    .data-edi {
+        color: #fff;
+        background-color: #0789e2 !important;
+        border-color: #007bff;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+    }
+
+    .data-remov {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+    }
+    .see_group{
+        color: #fff;
+        background-color: rgba(108, 117, 125, 0.58) !important;
+        border-color: rgba(108, 117, 125, 0.58) ;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+
+    }
+}
+@media (max-width: 1344px) {
+    .see_vaccin{
+        color: #fff;
+        background-color: #0789e2 !important;
+        border-color: #007bff;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+
+    }
+
+    .data-edit {
+        color: #fff;
+        background-color: #0789e2 !important;
+        border-color: #007bff;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+    }
+
+    .data-remove {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        padding: 3px 7px;
+        font-size: 12px;
+        margin-top: 3px;
+        border-radius: .25rem;
+    }
+    .data-edi {
+        color: #fff;
+        background-color: #0789e2 !important;
+        border-color: #007bff;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+    }
+
+    .data-remov {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        padding: 3px 7px;
+        margin-top: 3px;
+        font-size: 12px;
+        border-radius: .25rem;
+    }
+    .see_group{
+        color: #fff;
+        background-color: rgba(108, 117, 125, 0.58) !important;
+        border-color: rgba(108, 117, 125, 0.58) ;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: .25rem;
+
+    }
+}
+
+
+div.dataTables_wrapper div.dataTables_length label {
+    font-family: "marvel-bold";
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    font-family: "marvel-bold";
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    font-size: 12px;
+}

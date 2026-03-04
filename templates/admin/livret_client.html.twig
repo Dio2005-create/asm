@@ -1,0 +1,73 @@
+  {% extends 'include/base-admin.html.twig' %}
+{%  block title %}
+    Livret Client
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="modal-header text-center">
+        <h5 class="modal-title white-text w-100 font-weight-bold py-2">Livre des clients</h5>
+
+    </div>
+    <form method="post" id="year-form">
+        <label for="year">Sélectionnez une année :</label>
+        <select id="year" name="year">
+            {% for year in years %}
+                <option value="{{ year.year }}" {% if year.year == selectedYear %}selected{% endif %}>{{ year.year }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+ {% if data is defined %}
+    <div class="col"  style="text-align:right">
+         <a href="{{ path('export_excel', {'year': selectedYear}) }}" class="btn btn-primary">Exporter au format Excel</a>
+    </div>
+    <div class="row-table table-content mt-3">
+        <table class="table table-striped" id="example1">
+            <thead>
+            <tr>
+                  <th>Code</th>
+                  <th>Client</th>
+                    {% for mois in data.mois %}
+                        <th>{{ mois }}</th>
+                    {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for clientIndex, client in data.clients %}
+                <tr>
+                    <td>{{ client.code }}</td>
+                    <td>{{ client.nom }} {{ client.prenom }}</td>
+                    {% for consommation in data.consommations[clientIndex] %}
+                        <td>{{ consommation }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function () {
+          
+             $('#example1').DataTable();
+
+        });
+         document.getElementById('year').addEventListener('change', function() {
+            // Soumettre le formulaire automatiquement lorsqu'une année est sélectionnée
+            document.getElementById('year-form').submit();
+        });
+     
+
+
+        
+
+    </script>
+{% endblock %}

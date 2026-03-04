@@ -1,0 +1,46 @@
+{# templates/facture/factures_par_mois.html.twig #}
+
+  {% extends 'include/base-admin.html.twig' %}
+
+{% block title %}Factures par mois{% endblock %}
+
+{% block body %}
+ <div class="modal-header text-center">
+        <h5 class="modal-title white-text w-100 font-weight-bold py-2">Nombres Factures pour chaque Caissier</h5>
+
+    </div>
+ <div class="row-table table-content mt-3">
+    <table class="table table-striped" id="example1">
+        <thead>
+            <tr>
+                <th>Mois</th>
+                <th>Caisse</th>
+                <th>Nombre de factures</th>
+                <th>Montant total des factures</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mois, comptables in resultats %}
+                {% for comptable, details in comptables %}
+                    <tr>
+                        <td>{{ mois }}</td>
+                        <td>{{ comptable }}</td>
+                        <td>{{ details.nombre_factures }}</td>
+                        <td>{{ details.montant_total }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function () {
+          
+             $('#example1').DataTable();
+
+        });
+    </script>
+{% endblock %}
