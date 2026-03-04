@@ -1,0 +1,5 @@
+[build]
+builder = "nixpacks"
+
+[php]
+version = "8.2"
